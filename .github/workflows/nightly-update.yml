@@ -1,0 +1,42 @@
+name: Nightly Progress Update
+
+on:
+  schedule:
+    # Runs at 06:00 UTC every day (~1 AM EST / 10 PM PST)
+    - cron: "0 6 * * *"
+  workflow_dispatch:          # allow manual trigger from the Actions tab
+
+permissions:
+  contents: write             # needed to push data/ and docs/ back to the repo
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily update
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/update.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ docs/
+          # Only commit if there are changes
+          git diff --cached --quiet || \
+            git commit -m "chore: daily progress update $(date -u +%Y-%m-%d)"
+          git push

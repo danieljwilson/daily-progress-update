@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Progress — {{ username }}</title>
+  <style>
+    /* ── Reset & base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f8f9fb;
+      --surface:   #ffffff;
+      --border:    #e2e6ea;
+      --text:      #1a1d21;
+      --text-dim:  #5f6b7a;
+      --accent:    #2563eb;
+      --accent-bg: #eff4ff;
+      --green:     #16a34a;
+      --green-bg:  #f0fdf4;
+      --orange:    #d97706;
+      --orange-bg: #fffbeb;
+      --purple:    #7c3aed;
+      --purple-bg: #f5f3ff;
+      --radius:    10px;
+      --shadow:    0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 2rem 1rem;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ────────────────────────────────────────────────────── */
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ── Header ────────────────────────────────────────────────────── */
+    .header { margin-bottom: 2rem; }
+
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header .meta {
+      color: var(--text-dim);
+      font-size: 0.875rem;
+      margin-top: .25rem;
+    }
+
+    /* ── Stats bar ─────────────────────────────────────────────────── */
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .stat .value { font-size: 1.5rem; font-weight: 700; }
+    .stat .label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ── Repo card ─────────────────────────────────────────────────── */
+    .repo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .repo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: .25rem;
+    }
+
+    .repo-name {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .repo-badges {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      font-size: .78rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .15rem .55rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .badge-lang    { background: var(--accent-bg); color: var(--accent); }
+    .badge-time    { background: var(--bg); color: var(--text-dim); }
+    .badge-commits { background: var(--green-bg); color: var(--green); }
+
+    .repo-desc {
+      color: var(--text-dim);
+      font-size: .875rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Sections inside card ──────────────────────────────────────── */
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-dim);
+      margin-bottom: .35rem;
+    }
+
+    .summary-block {
+      margin-bottom: 1rem;
+    }
+
+    .summary-text {
+      font-size: .92rem;
+      line-height: 1.6;
+    }
+
+    .next-steps {
+      background: var(--accent-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: .85rem 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .next-steps .section-label { color: var(--accent); }
+
+    .next-steps-text {
+      font-size: .92rem;
+      white-space: pre-line;
+      line-height: 1.65;
+    }
+
+    /* ── Activity log (collapsible) ────────────────────────────────── */
+    details { margin-top: .25rem; }
+
+    details summary {
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      padding: .4rem 0;
+      list-style: none;
+      user-select: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::before { content: "▸ "; }
+    details[open] summary::before { content: "▾ "; }
+
+    .day-group { margin-bottom: .75rem; }
+    .day-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: .3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: .2rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: baseline;
+      gap: .4rem;
+      font-size: .82rem;
+      padding: .15rem 0;
+    }
+
+    .activity-icon {
+      flex-shrink: 0;
+      width: 1rem;
+      text-align: center;
+    }
+
+    .commit-icon  { color: var(--accent); }
+    .pr-icon      { color: var(--green); }
+    .issue-icon   { color: var(--orange); }
+
+    .activity-msg { color: var(--text); }
+    .activity-sha {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: .75rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Empty state ───────────────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-dim);
+    }
+    .empty-state h2 { font-size: 1.25rem; margin-bottom: .5rem; }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: .78rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      body { padding: 1rem .5rem; }
+      .stats { gap: .75rem; }
+      .stat { flex: 1 1 calc(50% - .75rem); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <h1>Daily Progress</h1>
+      <div class="meta">
+        <a href="https://github.com/{{ username }}">{{ username }}</a>
+        &middot; Updated {{ generated_at }}
+        &middot; Showing repos active in the last {{ active_window_days }} days
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="value">{{ stats.active_repos }}</div>
+        <div class="label">Active Repos</div>
+      </div>
+      <div class="stat">
+        <div class="value">{{ stats.total_commits }}</div>
+        <div class="label">Commits</div>
+      </div>
+      <div class="stat">
+        <div class="value">{{ stats.languages | length }}</div>
+        <div class="label">Languages</div>
+      </div>
+    </div>
+
+    <!-- Repo cards -->
+    {% if repos %}
+    {% for repo in repos %}
+    <article class="repo-card">
+      <div class="repo-header">
+        <a class="repo-name" href="{{ repo.url }}" target="_blank" rel="noopener">
+          {{ repo.name }}
+        </a>
+        <div class="repo-badges">
+          {% if repo.language %}
+          <span class="badge badge-lang">{{ repo.language }}</span>
+          {% endif %}
+          <span class="badge badge-time">{{ repo.last_pushed_relative }}</span>
+          {% if repo.total_commits %}
+          <span class="badge badge-commits">{{ repo.total_commits }} commit{{ "s" if repo.total_commits != 1 }}</span>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if repo.description %}
+      <div class="repo-desc">{{ repo.description }}</div>
+      {% endif %}
+
+      <!-- Latest summary -->
+      {% if repo.daily_entries %}
+      <div class="summary-block">
+        <div class="section-label">Summary</div>
+        <div class="summary-text">{{ repo.daily_entries[0].summary }}</div>
+      </div>
+      {% endif %}
+
+      <!-- Next steps (always the latest) -->
+      {% if repo.next_steps %}
+      <div class="next-steps">
+        <div class="section-label">Next Steps</div>
+        <div class="next-steps-text">{{ repo.next_steps }}</div>
+      </div>
+      {% endif %}
+
+      <!-- Expandable activity log -->
+      {% set total_activity = repo.daily_entries | sum(attribute='total_items') %}
+      {% if total_activity > 0 %}
+      <details>
+        <summary>Activity Log ({{ total_activity }} item{{ "s" if total_activity != 1 }})</summary>
+        {% for day in repo.daily_entries %}
+        {% if day.total_items > 0 %}
+        <div class="day-group">
+          <div class="day-label">{{ day.date }}</div>
+
+          {% for c in day.commits %}
+          <div class="activity-item">
+            <span class="activity-icon commit-icon">&#9679;</span>
+            <span class="activity-sha">{{ c.sha }}</span>
+            <span class="activity-msg">{{ c.message }}</span>
+          </div>
+          {% endfor %}
+
+          {% for pr in day.pull_requests %}
+          <div class="activity-item">
+            <span class="activity-icon pr-icon">&#9679;</span>
+            <span class="activity-msg">
+              <a href="{{ pr.url }}" target="_blank" rel="noopener">#{{ pr.number }}</a>
+              {{ pr.title }}
+              <span style="color:var(--text-dim)">[{{ pr.state }}]</span>
+            </span>
+          </div>
+          {% endfor %}
+
+          {% for iss in day.issues %}
+          <div class="activity-item">
+            <span class="activity-icon issue-icon">&#9679;</span>
+            <span class="activity-msg">
+              <a href="{{ iss.url }}" target="_blank" rel="noopener">#{{ iss.number }}</a>
+              {{ iss.title }}
+              <span style="color:var(--text-dim)">[{{ iss.state }}]</span>
+            </span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+      </details>
+      {% endif %}
+    </article>
+    {% endfor %}
+    {% else %}
+    <div class="empty-state">
+      <h2>No active repositories</h2>
+      <p>No repos have been updated in the last {{ active_window_days }} days.</p>
+    </div>
+    {% endif %}
+
+    <footer class="footer">
+      Generated by <strong>Daily Progress Update</strong>
+    </footer>
+  </div>
+</body>
+</html>
