@@ -1,0 +1,747 @@
+{
+  "date": "2026-02-18",
+  "generated_at": "2026-02-18T20:24:33.376104+00:00",
+  "repos": {
+    "danieljwilson/daily-progress-update": {
+      "url": "https://github.com/danieljwilson/daily-progress-update",
+      "description": "",
+      "language": "Python",
+      "last_pushed": "2026-02-18T20:23:04Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "13c770b",
+            "message": "feat: GitHub activity tracker with AI-powered daily summaries",
+            "author": "Claude",
+            "date": "2026-02-18T11:17:13Z",
+            "url": "https://github.com/danieljwilson/daily-progress-update/commit/13c770b235f553a0a965e4f6477464db44c06d72"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "A new feature was implemented to create a GitHub activity tracker that generates AI-powered daily summaries. The commit was authored by Claude, suggesting an AI-assisted development approach. This appears to be the foundational commit for the repository, establishing the core functionality of tracking and summarizing daily progress.",
+      "next_steps": "\u2022 Add repository description to clarify the project's purpose and usage\n\u2022 Implement authentication and configuration for GitHub API access\n\u2022 Create documentation including setup instructions and usage examples\n\u2022 Add error handling and rate limiting for API calls\n\u2022 Set up automated scheduling for daily summary generation"
+    },
+    "danieljwilson/event-image-2-calendar": {
+      "url": "https://github.com/danieljwilson/event-image-2-calendar",
+      "description": "",
+      "language": "",
+      "last_pushed": "2026-02-18T11:18:55Z",
+      "activity": {
+        "commits": [],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "Repository was pushed to but no new commits, PRs, or issues were detected in this window.",
+      "next_steps": "\u2022 Review any in-progress work\n\u2022 Check for pending branch merges"
+    },
+    "danieljwilson/strava-crossing-paths": {
+      "url": "https://github.com/danieljwilson/strava-crossing-paths",
+      "description": "",
+      "language": "",
+      "last_pushed": "2026-02-18T11:14:09Z",
+      "activity": {
+        "commits": [],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "Repository was pushed to but no new commits, PRs, or issues were detected in this window.",
+      "next_steps": "\u2022 Review any in-progress work\n\u2022 Check for pending branch merges"
+    },
+    "danieljwilson/16sub16": {
+      "url": "https://github.com/danieljwilson/16sub16",
+      "description": "",
+      "language": "HTML",
+      "last_pushed": "2026-02-18T07:01:44Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "5a99089",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-18T07:01:44Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/5a99089ead6c20a28058b70bd37fb43f91a98872"
+          },
+          {
+            "sha": "4f05359",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-17T06:59:36Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/4f05359895294c55eddf3bdf56507859943b440e"
+          },
+          {
+            "sha": "dc7f477",
+            "message": "refactor: improve user interface and update Banister model parameters",
+            "author": "danieljwilson",
+            "date": "2026-02-16T22:04:44Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/dc7f477cf84cde2bb88ead20663b03a0eced80ee"
+          },
+          {
+            "sha": "5f8bdf1",
+            "message": "Merge pull request #1 from danieljwilson/codex/backfill-tp",
+            "author": "Daniel J Wilson",
+            "date": "2026-02-16T22:01:48Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/5f8bdf126a1d3a76598ed6ef0b3acd79bb0c6e71"
+          },
+          {
+            "sha": "2af8916",
+            "message": "refactor: update Banister model parameters and enhance HTML structure",
+            "author": "danieljwilson",
+            "date": "2026-02-16T21:49:52Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/2af8916a8d5b7003cf3124ecfbb3bd2c24fb5674"
+          },
+          {
+            "sha": "fb069b3",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-16T19:48:58Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/fb069b354567612d7319cffbdd910f38d8d42edf"
+          },
+          {
+            "sha": "9e77de1",
+            "message": "feat: import TrainingPeaks runs and support Strava backfill",
+            "author": "danieljwilson",
+            "date": "2026-02-16T19:48:30Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/9e77de19ce353efa09f63ef35b3a728df7de1583"
+          },
+          {
+            "sha": "9fe9e10",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-16T19:47:11Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/9fe9e1006f096e60b8e10cbad8d0edd709fcff58"
+          },
+          {
+            "sha": "aafe9f8",
+            "message": "refactor: update styles in index.html and enhance Banister model fitting logic",
+            "author": "danieljwilson",
+            "date": "2026-02-16T13:47:04Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/aafe9f8e744053650658698a6869eb3cbf269e16"
+          },
+          {
+            "sha": "6add98a",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-16T07:03:50Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/6add98aabd5e06d42af1f058f19ebd7790d840fa"
+          },
+          {
+            "sha": "fec258a",
+            "message": "refactor: enhance legend annotation layout in index.html for improved clarity",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:58:46Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/fec258a109c3053c218a0971ff72e86c5b17d2ae"
+          },
+          {
+            "sha": "0b679a4",
+            "message": "fix: adjust spacing in legend annotations for improved readability",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:55:50Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/0b679a45000d45260e2e9600b3f75931e21b35fe"
+          },
+          {
+            "sha": "1a9ac33",
+            "message": "Fixed spacing on distribution labels",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:53:08Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/1a9ac33a8811ab71c586fa4db678593ffb02827b"
+          },
+          {
+            "sha": "41287f2",
+            "message": "refactor: improve annotation layout and styling in index.html for better clarity",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:48:10Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/41287f21dd7282c6e3d4c4cc6e0df74ec19d699d"
+          },
+          {
+            "sha": "e2e1f0d",
+            "message": "refactor: streamline annotation display in index.html for improved clarity",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:41:51Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/e2e1f0ddd2e54cc49dad587bfcb0fa3c46928962"
+          },
+          {
+            "sha": "416783b",
+            "message": "style: enhance annotations and layout in index.html for improved readability",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:36:14Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/416783bcea5e0b11acbe7bc888951ff1626f0e39"
+          },
+          {
+            "sha": "a685efe",
+            "message": "feat: implement trailing mean for Banister model and enhance visualizations",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:28:31Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/a685efef3ebeaf78e283caea1ee096e338d6d494"
+          },
+          {
+            "sha": "c1b95f5",
+            "message": "refactor: enhance projection logic in update_banister.py and clean up index.html styles",
+            "author": "danieljwilson",
+            "date": "2026-02-16T00:15:33Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/c1b95f5221023ee4ee47291d8882af7928d6eef8"
+          },
+          {
+            "sha": "7239cba",
+            "message": "fix: update file references from 16sub16_tracker.html to index.html",
+            "author": "danieljwilson",
+            "date": "2026-02-15T23:36:46Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/7239cba3ab19905f9437019bb1a1ed4258bb3128"
+          },
+          {
+            "sha": "afbb01a",
+            "message": "chore: rename to index.html for GitHub Pages",
+            "author": "danieljwilson",
+            "date": "2026-02-15T23:36:35Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/afbb01abb1fbfa2b84dbd8fb89a5036d75693879"
+          },
+          {
+            "sha": "66183ef",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-15T23:30:16Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/66183ef7e626873a235e13f407dfd143300a35fe"
+          },
+          {
+            "sha": "9c19792",
+            "message": "chore: update Banister model [skip ci]",
+            "author": "github-actions[bot]",
+            "date": "2026-02-15T23:29:53Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/9c19792915cfbd6c823a64020631a65737126558"
+          },
+          {
+            "sha": "058d8a4",
+            "message": "fix: quote secret expressions in workflow env block",
+            "author": "danieljwilson",
+            "date": "2026-02-15T23:28:39Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/058d8a4f342cf717b00233c5391d33d756927e82"
+          },
+          {
+            "sha": "1bb5aa0",
+            "message": "feat: add Strava \u2192 Banister fitness-fatigue pipeline",
+            "author": "danieljwilson",
+            "date": "2026-02-15T23:10:34Z",
+            "url": "https://github.com/danieljwilson/16sub16/commit/1bb5aa0f81d0aabfa7593a516fa027f1b2356bed"
+          }
+        ],
+        "pull_requests": [
+          {
+            "number": 1,
+            "title": "Add TrainingPeaks backfill and Banister model updates",
+            "state": "merged",
+            "url": "https://github.com/danieljwilson/16sub16/pull/1",
+            "date": "2026-02-16T22:05:22Z"
+          }
+        ],
+        "issues": []
+      },
+      "summary": "The repository implements a fitness tracking system using the Banister impulse-response model, integrating data from both Strava and TrainingPeaks. Recent work focused on building an automated pipeline that fetches training data, fits the Banister model to calculate fitness and fatigue metrics, and visualizes the results through a GitHub Pages site (index.html). Multiple commits refined the UI/UX, adjusted model parameters, and established automated updates via GitHub Actions.",
+      "next_steps": [
+        "\u2022 Add documentation explaining the Banister model parameters (tau1, tau2, k1, k2) and how users can interpret their fitness/fatigue curves",
+        "\u2022 Implement error handling and validation for the Strava and TrainingPeaks API integrations to handle rate limits and missing data",
+        "\u2022 Add unit tests for the Banister model fitting logic in update_banister.py to ensure accuracy of projections",
+        "\u2022 Consider adding user configuration options to customize model parameters or data sources without modifying code",
+        "\u2022 Explore additional visualizations such as form (fitness minus fatigue) or performance predictions for upcoming race dates"
+      ]
+    },
+    "danieljwilson/personal-website": {
+      "url": "https://github.com/danieljwilson/personal-website",
+      "description": "Personal website with dynamic metrics",
+      "language": "Nunjucks",
+      "last_pushed": "2026-02-17T22:09:15Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "c45394f",
+            "message": "Simplify CV education to PhD only with completion year",
+            "author": "danieljwilson",
+            "date": "2026-02-17T22:09:13Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/c45394f9e10175cc0341824fa86fd06bc3d0236e"
+          },
+          {
+            "sha": "8e189bf",
+            "message": "Replace Academic CV PDF with generated version from web CV",
+            "author": "danieljwilson",
+            "date": "2026-02-17T21:28:22Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/8e189bfb940e3486ba537abe87400248c35f2f37"
+          },
+          {
+            "sha": "15d1218",
+            "message": "Add CV page at /cv/ with downloadable PDF",
+            "author": "danieljwilson",
+            "date": "2026-02-17T19:45:57Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/15d12185734b2d64863534310885cdc5bb53cbfd"
+          },
+          {
+            "sha": "681465e",
+            "message": "Add click event listener to display past details in index.njk",
+            "author": "danieljwilson",
+            "date": "2026-02-09T19:45:30Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/681465ed1b93b32a22e3c5874fd40c943ea7e814"
+          },
+          {
+            "sha": "c00772d",
+            "message": "Updated CLAUDE.md",
+            "author": "danieljwilson",
+            "date": "2026-02-09T15:09:17Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/c00772d899df87990059271fbd511e160b8f6a2b"
+          },
+          {
+            "sha": "0e21568",
+            "message": "Update Eleventy configuration to change the processing order of Obsidian callouts from block to inline, improving the ha",
+            "author": "danieljwilson",
+            "date": "2026-02-08T21:11:04Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/0e215688d978ba1ea63269140026e00cbf05d5ad"
+          },
+          {
+            "sha": "ebe686e",
+            "message": "Enhance styles.css with new styles for code blocks, inline code, and Obsidian callout boxes. Introduce highlighted text ",
+            "author": "danieljwilson",
+            "date": "2026-02-08T21:03:40Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/ebe686e054a3536892d939614582f82de8ca1d83"
+          },
+          {
+            "sha": "cd1f1a3",
+            "message": "Implement fallback mechanism for IP-based location updates in ingest.js, ensuring that only non-recent GPS locations tri",
+            "author": "danieljwilson",
+            "date": "2026-02-07T21:41:16Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/cd1f1a3211cfb6ab2c6f41b14dd82a3828efbae8"
+          },
+          {
+            "sha": "10fa418",
+            "message": "Update package-lock.json to include additional markdown-it plugins: markdown-it-footnote, markdown-it-mark, and markdown",
+            "author": "danieljwilson",
+            "date": "2026-02-07T19:58:42Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/10fa418cbb95f3c234cbfc31e56edcad44b2f076"
+          },
+          {
+            "sha": "c0ab968",
+            "message": "Implement input management in Eleventy configuration by adding collections for latest and all inputs by category. Update",
+            "author": "danieljwilson",
+            "date": "2026-02-07T19:56:06Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/c0ab968f365deaed5ada62bbb86c0f08d3c7fc38"
+          },
+          {
+            "sha": "d720950",
+            "message": "Enhance Eleventy configuration by adding Obsidian syntax linting and support for additional markdown-it plugins. Update ",
+            "author": "danieljwilson",
+            "date": "2026-02-05T15:17:06Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/d72095079bc0131de8e61a79c21b156e9b96d6dc"
+          },
+          {
+            "sha": "fb7cacb",
+            "message": "Refactor weather data handling in weather.js to integrate WeatherAPI, updating fetchCurrentWeather to utilize new API st",
+            "author": "danieljwilson",
+            "date": "2026-02-05T14:58:34Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/fb7cacb60eb664a27330fa1e83bc8e3718cb754b"
+          },
+          {
+            "sha": "41b5f99",
+            "message": "Enhance fetchCurrentWeather function in weather.js to accept an options parameter for ignoring backoff on recent failure",
+            "author": "danieljwilson",
+            "date": "2026-02-05T13:54:12Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/41b5f998b3a60f8befe2e8300b3e521e15cc88ad"
+          },
+          {
+            "sha": "6aafc11",
+            "message": "Update Eleventy configuration to ignore worker files and remove uncategorized writing collection. Revise project descrip",
+            "author": "danieljwilson",
+            "date": "2026-02-05T13:08:24Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/6aafc11cd4ee7dfacb7c005d564e578e57cee498"
+          },
+          {
+            "sha": "c72a49e",
+            "message": "Implement writing category tabs for posts and tips in index.njk and writing.njk; enhance styles.css for tab navigation a",
+            "author": "danieljwilson",
+            "date": "2026-02-05T12:26:44Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/c72a49e3795656ce7c044c08f79e69b1472e9eda"
+          },
+          {
+            "sha": "7c31aeb",
+            "message": "Add post-deploy health check workflow",
+            "author": "danieljwilson",
+            "date": "2026-02-05T11:54:06Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/7c31aeba16e7f2036f23c526f2ba8ff1a355a80a"
+          },
+          {
+            "sha": "ae4e0bd",
+            "message": "Implement content modal for projects and writing sections in projects.njk and writing.njk; update styles.css for modal n",
+            "author": "danieljwilson",
+            "date": "2026-02-04T22:41:00Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/ae4e0bde8028d1511b6d285f4222b17b2b9a62c2"
+          },
+          {
+            "sha": "b38ad10",
+            "message": "Update styles.css to increase font size for project and writing headings for improved visibility.",
+            "author": "danieljwilson",
+            "date": "2026-02-04T21:56:41Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/b38ad10ad3f31f2adffdd0a733877b14d281dce0"
+          },
+          {
+            "sha": "9f3ff1b",
+            "message": "Improve error handling in weather.js by adding console logging for API response status and message; refactor fetch call ",
+            "author": "danieljwilson",
+            "date": "2026-02-04T21:47:31Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/9f3ff1b2718f66a91aad6ea0b2191429dac20559"
+          },
+          {
+            "sha": "fd983ca",
+            "message": "Refactor weather data fetching in weather.js to ensure latitude and longitude are properly converted to numbers; enhance",
+            "author": "danieljwilson",
+            "date": "2026-02-04T21:41:46Z",
+            "url": "https://github.com/danieljwilson/personal-website/commit/fd983ca912da948d17914d1c0fb3fadcf257b863"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "The developer made substantial improvements to their personal website, focusing on three main areas: adding a comprehensive CV page with PDF generation capabilities, implementing dynamic content display with modals and tab navigation for projects and writing, and enhancing markdown rendering with Obsidian syntax support including callouts, footnotes, and highlighted text. Additionally, they improved the robustness of weather data fetching with better API integration, error handling, and fallback mechanisms for location updates.",
+      "next_steps": [
+        "\u2022 Add more sections to the CV page beyond education (e.g., experience, publications, skills) to make it more comprehensive",
+        "\u2022 Implement automated testing for the modal and tab navigation features to ensure cross-browser compatibility",
+        "\u2022 Expand the health check workflow to monitor API endpoints (weather, location) and alert on failures",
+        "\u2022 Create documentation for the Obsidian markdown syntax support to help with content authoring",
+        "\u2022 Optimize the PDF generation process for the CV to ensure consistent formatting and styling"
+      ]
+    },
+    "danieljwilson/2026_paper_dgibg": {
+      "url": "https://github.com/danieljwilson/2026_paper_dgibg",
+      "description": "DG-IBG psychometric measure: scale development and validation paper",
+      "language": "HTML",
+      "last_pushed": "2026-02-17T21:55:20Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "e1331c8",
+            "message": "Update .gitignore, enhance data loading and processing, and expand manuscript content",
+            "author": "danieljwilson",
+            "date": "2026-02-17T21:55:14Z",
+            "url": "https://github.com/danieljwilson/2026_paper_dgibg/commit/e1331c885d22318b0efd03a7ec4928be86ae509d"
+          },
+          {
+            "sha": "7f228b7",
+            "message": "Fix SGRIT and QoL cross-study sign flips in preprocessing",
+            "author": "danieljwilson",
+            "date": "2026-02-14T07:52:22Z",
+            "url": "https://github.com/danieljwilson/2026_paper_dgibg/commit/7f228b73e5c68c8838c6248091873bb2f9010684"
+          },
+          {
+            "sha": "2a3cbf9",
+            "message": "Implement analysis priorities 1-6: descriptives through tables/figures",
+            "author": "danieljwilson",
+            "date": "2026-02-14T06:48:45Z",
+            "url": "https://github.com/danieljwilson/2026_paper_dgibg/commit/2a3cbf9163d0cf18d5721fe7139216112f2bcff7"
+          },
+          {
+            "sha": "58e8b9b",
+            "message": "Initial commit: preprocessing pipeline and project scaffolding",
+            "author": "danieljwilson",
+            "date": "2026-02-14T06:25:27Z",
+            "url": "https://github.com/danieljwilson/2026_paper_dgibg/commit/58e8b9bd1771bfbcad853db159dca96b1345468e"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "The repository establishes a comprehensive psychometric validation pipeline for the DG-IBG scale across four commits. Initial scaffolding and preprocessing were built, followed by critical data quality fixes addressing sign-flip errors in SGRIT and Quality of Life measures. The core analysis priorities (descriptives, tables, and figures) were then implemented, with manuscript content expanded alongside enhanced data processing capabilities.",
+      "next_steps": [
+        "\u2022 Complete remaining analysis priorities beyond items 1-6, likely including reliability analyses, confirmatory factor analysis, and convergent/discriminant validity testing",
+        "\u2022 Draft or expand results and discussion sections of the manuscript to interpret the generated tables and figures",
+        "\u2022 Conduct cross-validation analyses across studies to ensure measurement invariance given the cross-study data corrections",
+        "\u2022 Prepare supplementary materials and finalize manuscript formatting for journal submission",
+        "\u2022 Run sensitivity analyses to verify robustness of findings after the SGRIT/QoL sign-flip corrections"
+      ]
+    },
+    "danieljwilson/passive-data-15min-blocks": {
+      "url": "https://github.com/danieljwilson/passive-data-15min-blocks",
+      "description": "",
+      "language": "Python",
+      "last_pushed": "2026-02-17T21:46:37Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "164910e",
+            "message": "Disable pickle output and update README folder structure",
+            "author": "danieljwilson",
+            "date": "2026-02-17T21:46:36Z",
+            "url": "https://github.com/danieljwilson/passive-data-15min-blocks/commit/164910e072f8f164e7e8517a660c7135819dc3e3"
+          },
+          {
+            "sha": "25c982c",
+            "message": "Move data_dictionary files to docs/ and update all path references",
+            "author": "danieljwilson",
+            "date": "2026-02-17T21:43:23Z",
+            "url": "https://github.com/danieljwilson/passive-data-15min-blocks/commit/25c982c247ce051581d76b40090ba298c7468225"
+          },
+          {
+            "sha": "554c19b",
+            "message": "Initial commit: passive sensing data pipeline",
+            "author": "danieljwilson",
+            "date": "2026-02-17T21:36:16Z",
+            "url": "https://github.com/danieljwilson/passive-data-15min-blocks/commit/554c19be59b3b7f9f2b416ff048c66f33360a0cc"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "A passive sensing data pipeline was created from scratch and then underwent initial organizational improvements. The developer moved data dictionary files into a docs/ folder for better organization and updated all related path references. Pickle output functionality was disabled and the README was updated to reflect the new folder structure.",
+      "next_steps": "\u2022 Add a repository description to help users understand the project's purpose\n\u2022 Document the data pipeline's functionality, input/output formats, and usage instructions\n\u2022 Consider adding example usage or sample data to demonstrate the 15-minute block processing\n\u2022 Implement proper data validation and error handling for the pipeline\n\u2022 Set up testing infrastructure to ensure data processing integrity"
+    },
+    "danieljwilson/ios-exporter-app": {
+      "url": "https://github.com/danieljwilson/ios-exporter-app",
+      "description": "iOS HealthKit data exporter app",
+      "language": "Swift",
+      "last_pushed": "2026-02-17T21:31:05Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "21dbcb1",
+            "message": "Update .gitignore to exclude local Claude AI settings file",
+            "author": "danieljwilson",
+            "date": "2026-02-17T21:31:04Z",
+            "url": "https://github.com/danieljwilson/ios-exporter-app/commit/21dbcb193922d2e3aebc67bef0317c386dfe0aaf"
+          },
+          {
+            "sha": "925a4cf",
+            "message": "Route URL sync through ContentViewModel and persist HealthKit auth state",
+            "author": "danieljwilson",
+            "date": "2026-02-17T19:29:42Z",
+            "url": "https://github.com/danieljwilson/ios-exporter-app/commit/925a4cfdd049c8ee97456ed031dc4fb1a395d459"
+          },
+          {
+            "sha": "edf232a",
+            "message": "Add custom cloud-upload app icon",
+            "author": "danieljwilson",
+            "date": "2026-02-17T14:55:11Z",
+            "url": "https://github.com/danieljwilson/ios-exporter-app/commit/edf232ab912a44d88b127e78c4961b9179a6672f"
+          },
+          {
+            "sha": "4d636ad",
+            "message": "Add URL scheme and failure notifications for Shortcuts-based auto-sync",
+            "author": "danieljwilson",
+            "date": "2026-02-17T14:47:58Z",
+            "url": "https://github.com/danieljwilson/ios-exporter-app/commit/4d636ad9bb59f70a5eed345abcbd54a7c0f0045a"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "The developer enhanced the iOS HealthKit exporter app with automation and infrastructure improvements. Key additions include a URL scheme for Shortcuts-based auto-sync with failure notifications, routing sync operations through a centralized ContentViewModel with persistent HealthKit authorization state, and a custom cloud-upload icon. Development workflow was also improved by excluding Claude AI settings from version control.",
+      "next_steps": [
+        "\u2022 Test the Shortcuts-based auto-sync workflow end-to-end to validate URL scheme handling and failure notification delivery",
+        "\u2022 Document the URL scheme format and parameters for users who want to create automation shortcuts",
+        "\u2022 Add success notifications to complement the failure notifications for better user feedback",
+        "\u2022 Implement error handling and retry logic for failed sync operations",
+        "\u2022 Consider adding sync history or logs to help users troubleshoot automation issues"
+      ]
+    },
+    "danieljwilson/personal-website-content": {
+      "url": "https://github.com/danieljwilson/personal-website-content",
+      "description": "",
+      "language": "",
+      "last_pushed": "2026-02-17T20:56:56Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "782cdd1",
+            "message": "Add new inputs: 1 podcast, 3 notebooklm notebooks (2026-02-17)",
+            "author": "danieljwilson",
+            "date": "2026-02-17T20:56:55Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/782cdd1ac2a51dbdd3f7da532ae611dea18f60f1"
+          },
+          {
+            "sha": "4364793",
+            "message": "Add new inputs: 2 podcasts, 5 notebooklm notebooks (2026-02-16)",
+            "author": "danieljwilson",
+            "date": "2026-02-17T12:14:58Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/436479390fd8272806d1aa7d480e00e6477ab0d4"
+          },
+          {
+            "sha": "27f82cf",
+            "message": "Add new inputs: daily-tech-digest-2026-02-13, pogacar-controversial-sponsor-lrcp",
+            "author": "danieljwilson",
+            "date": "2026-02-15T21:59:11Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/27f82cf266f24f97348d7372fa3f59d390ce5ded"
+          },
+          {
+            "sha": "22ac5e7",
+            "message": "Add new input: we-didnt-ask-for-this-internet",
+            "author": "danieljwilson",
+            "date": "2026-02-14T21:01:18Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/22ac5e72a2107eb8ce03ee7cc13ceedca9ee439c"
+          },
+          {
+            "sha": "22617b4",
+            "message": "Add new inputs: bio-anchors, neural-probabilistic-language-model, hard-fork-something-big",
+            "author": "danieljwilson",
+            "date": "2026-02-13T20:38:48Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/22617b42435268e5a48d16415b117d6c3781c93d"
+          },
+          {
+            "sha": "dae7712",
+            "message": "Fix broken logo URL for Conversations with Tyler episode",
+            "author": "danieljwilson",
+            "date": "2026-02-12T20:51:42Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/dae7712fb0dca9ac129fa9137cbed7b589e8ff7b"
+          },
+          {
+            "sha": "f11e036",
+            "message": "Add new inputs: waseem-daher-passion, sorkin-market-bubbles, daily-tech-digest, accelerating-scientific-research-gemini",
+            "author": "danieljwilson",
+            "date": "2026-02-12T20:38:31Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/f11e0361bd58317cfb574041fb44bb5738af201c"
+          },
+          {
+            "sha": "2dd6713",
+            "message": "Add new input(s): loneliness-of-sonia-and-sunny, wwdtm-lucy-dacus, psychology-financial-planning",
+            "author": "danieljwilson",
+            "date": "2026-02-12T19:50:30Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/2dd67139c235fa88742ee01ec8f99b78dd188462"
+          },
+          {
+            "sha": "eb72aea",
+            "message": "Add new input(s): mastering-customer-interviews, flipping-ropes, we-had-six-months-left, is-wokeness-finally-dead, phrac",
+            "author": "danieljwilson",
+            "date": "2026-02-10T20:39:42Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/eb72aea12c5b9f4ef2d3442217bea701cd695e5e"
+          },
+          {
+            "sha": "2b5209c",
+            "message": "Update 'The SaaS Playbook' entry: format adjustments, set finish date, and ensure consistent creator information.",
+            "author": "danieljwilson",
+            "date": "2026-02-10T13:08:28Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/2b5209cdecc0179173fb627834ceef65521bb77d"
+          },
+          {
+            "sha": "7aaf6ae",
+            "message": "Remove unnecessary newline in post_email-to-input-pipeline.md for improved formatting",
+            "author": "danieljwilson",
+            "date": "2026-02-10T09:33:59Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/7aaf6aefa0c55501e2d3ffd1bae0f1c4fa6340e8"
+          },
+          {
+            "sha": "03ee00b",
+            "message": "Remove outdated image from project-pairent.md, update image reference, and change status of multiple writing files to dr",
+            "author": "danieljwilson",
+            "date": "2026-02-09T19:45:41Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/03ee00b6a3701fae29e3291d7c4cb13a56b49b2a"
+          },
+          {
+            "sha": "c53dd3b",
+            "message": "Add new input(s): input_podcast_andreas-almgren-training-diet.md",
+            "author": "danieljwilson",
+            "date": "2026-02-09T19:33:10Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/c53dd3ba1742ff4aa87d1efb19c299ea011dbd46"
+          },
+          {
+            "sha": "0fdabb8",
+            "message": "Refactor section headers in LLM code cleanup markdown for improved clarity",
+            "author": "danieljwilson",
+            "date": "2026-02-08T21:53:39Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/0fdabb849b64ac268459071a545f40e525950dd0"
+          },
+          {
+            "sha": "0ccc9c6",
+            "message": "Update featured flag in another-placeholder.md and remove extra newline in tips-uniqlo-base-layer-cycling.md",
+            "author": "danieljwilson",
+            "date": "2026-02-07T19:56:21Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/0ccc9c6b2a9e21895ffa2b13774f1f0313f66d30"
+          },
+          {
+            "sha": "94f386a",
+            "message": "Remove the LLM code de-cruftification markdown file, streamlining the writing directory by eliminating outdated content.",
+            "author": "danieljwilson",
+            "date": "2026-02-05T13:28:28Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/94f386a73ee0d64ca0b8c3a9decb77bac17088b9"
+          },
+          {
+            "sha": "fdfc085",
+            "message": "Update .gitignore, remove unused images and markdown files, and adjust featured flags for writing entries",
+            "author": "danieljwilson",
+            "date": "2026-02-05T13:10:51Z",
+            "url": "https://github.com/danieljwilson/personal-website-content/commit/fdfc085f0886d6f28d9874ad033f906922e056be"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "The repository shows active content management for a personal website, with a strong focus on adding new inputs (podcasts, NotebookLM notebooks, and articles) throughout mid-February 2026. The owner is maintaining a content pipeline with regular additions of consumed media and written pieces. There's also ongoing cleanup work including removing outdated content, fixing broken URLs, adjusting formatting, and updating metadata like featured flags and status markers.",
+      "next_steps": [
+        "\u2022 Continue the established daily input logging pattern, maintaining the momentum of podcast and notebook entries",
+        "\u2022 Review and update the status of additional writing files that may need to be marked as drafts or archived",
+        "\u2022 Audit remaining images and media files for broken or outdated references similar to the logo URL fix",
+        "\u2022 Document or refine the email-to-input pipeline process that was recently formatted",
+        "\u2022 Consider batch processing formatting improvements across older content entries to maintain consistency"
+      ]
+    },
+    "danieljwilson/pairent-app": {
+      "url": "https://github.com/danieljwilson/pairent-app",
+      "description": "",
+      "language": "TypeScript",
+      "last_pushed": "2026-02-10T09:14:04Z",
+      "activity": {
+        "commits": [
+          {
+            "sha": "70f0460",
+            "message": "Add MVP development roadmap: pipeline-first, 9-week plan",
+            "author": "danieljwilson",
+            "date": "2026-02-10T09:14:01Z",
+            "url": "https://github.com/danieljwilson/pairent-app/commit/70f0460d251d1af0c3f24ea9766666dddfcfd080"
+          },
+          {
+            "sha": "1d6fc3f",
+            "message": "Add PRD v1 and wireframes v1",
+            "author": "danieljwilson",
+            "date": "2026-02-10T08:40:53Z",
+            "url": "https://github.com/danieljwilson/pairent-app/commit/1d6fc3f4086f653fcac102ad5cce37ff52f5aaf5"
+          },
+          {
+            "sha": "d52d8d2",
+            "message": "Add code quality tooling: ESLint, Prettier, pre-commit hooks, CI",
+            "author": "danieljwilson",
+            "date": "2026-02-09T15:18:12Z",
+            "url": "https://github.com/danieljwilson/pairent-app/commit/d52d8d2f884152002cfca22b3e4f816239eb1414"
+          },
+          {
+            "sha": "50e4c70",
+            "message": "Add decisions log capturing initial stack and architecture choices",
+            "author": "danieljwilson",
+            "date": "2026-02-09T14:57:03Z",
+            "url": "https://github.com/danieljwilson/pairent-app/commit/50e4c706a06799c24c581fdf094c240cbec7be4a"
+          },
+          {
+            "sha": "57c7b69",
+            "message": "Initial monorepo scaffold: Expo mobile app + shared packages",
+            "author": "danieljwilson",
+            "date": "2026-02-09T14:46:09Z",
+            "url": "https://github.com/danieljwilson/pairent-app/commit/57c7b69fb90335baa2d87467040c4aa5375b075e"
+          }
+        ],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "The developer initialized a mobile application project called 'pairent-app' with a complete foundational setup. They established a monorepo architecture using Expo for mobile development, added comprehensive code quality tooling (ESLint, Prettier, pre-commit hooks, CI), and documented key technical decisions. A complete MVP roadmap was created with a 9-week timeline following a pipeline-first approach, accompanied by initial product requirements and wireframes.",
+      "next_steps": [
+        "\u2022 Begin Phase 1 of the 9-week MVP roadmap by implementing the core data pipeline components",
+        "\u2022 Set up the development environment and validate the CI/CD pipeline with initial builds",
+        "\u2022 Start implementing the core features outlined in the PRD v1, prioritizing the pipeline-first approach",
+        "\u2022 Iterate on wireframes v1 based on technical constraints discovered during initial implementation",
+        "\u2022 Configure deployment infrastructure for both mobile app and backend services"
+      ]
+    },
+    "sepastian/minutiae-poster-service": {
+      "url": "https://github.com/sepastian/minutiae-poster-service",
+      "description": "Generate large-format posters from images taken by the minutiae app.",
+      "language": "Python",
+      "last_pushed": "2026-02-05T11:05:05Z",
+      "activity": {
+        "commits": [],
+        "pull_requests": [],
+        "issues": []
+      },
+      "summary": "Repository was pushed to but no new commits, PRs, or issues were detected in this window.",
+      "next_steps": "\u2022 Review any in-progress work\n\u2022 Check for pending branch merges"
+    }
+  }
+}
