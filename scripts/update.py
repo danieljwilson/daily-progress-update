@@ -29,6 +29,9 @@ DATA_DIR = ROOT_DIR / "data"
 DOCS_DIR = ROOT_DIR / "docs"
 TEMPLATES_DIR = ROOT_DIR / "templates"
 
+DEFAULT_OBSIDIAN_TODO = "/Users/djw/Documents/pCloud_synced/Obsidian/January2026/daily-to-dos.md"
+OBSIDIAN_TODO_PATH = os.environ.get("OBSIDIAN_TODO_PATH", DEFAULT_OBSIDIAN_TODO)
+
 
 # ---------------------------------------------------------------------------
 # GitHub client
@@ -189,32 +192,42 @@ class AISummarizer:
             f'({description or "no description"}).\n\n'
             f"Activity:\n{activity_text}\n\n"
             "Return a JSON object with exactly two keys:\n"
-            '  "summary"     – 2-4 sentence narrative of what was accomplished.\n'
-            '  "next_steps"  – 2-5 bullet points (use • as the bullet character) '
-            "of concrete, actionable next steps inferred from the activity.\n\n"
+            '  "summary"     – 1 sentence, max 20 words, describing what was accomplished.\n'
+            '  "next_steps"  – a string with 2-3 bullet points using \u2022 as the bullet character, '
+            "each bullet under 10 words, separated by newlines.\n\n"
+            "Be terse and direct. No filler words. "
             "Respond ONLY with the JSON object, no markdown fences."
         )
 
         resp = self.client.messages.create(
-            model="claude-sonnet-4-5-20250929",
+            model="claude-sonnet-4-6-20250514",
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],
         )
 
         text = resp.content[0].text.strip()
         try:
-            return json.loads(text)
+            result = json.loads(text)
         except json.JSONDecodeError:
             m = re.search(r"\{[\s\S]*\}", text)
             if m:
                 try:
-                    return json.loads(m.group())
+                    result = json.loads(m.group())
                 except json.JSONDecodeError:
-                    pass
-        return {
-            "summary": text[:500],
-            "next_steps": "Could not parse structured next steps.",
-        }
+                    result = None
+            else:
+                result = None
+
+        if result is None:
+            return {
+                "summary": text[:500],
+                "next_steps": "Could not parse structured next steps.",
+            }
+
+        # Normalize next_steps to always be a string
+        if isinstance(result.get("next_steps"), list):
+            result["next_steps"] = "\n".join(result["next_steps"])
+        return result
 
 
 # ---------------------------------------------------------------------------
@@ -298,6 +311,7 @@ def build_dashboard(
         repos_view.append(
             {
                 "name": repo_name,
+                "display_name": repo_name.split("/")[-1],
                 "url": rdata.get("url", f"https://github.com/{repo_name}"),
                 "description": rdata.get("description", ""),
                 "language": rdata.get("language", ""),
@@ -336,6 +350,69 @@ def build_dashboard(
 
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / "index.html").write_text(html)
+
+
+# ---------------------------------------------------------------------------
+# Obsidian todo generation
+# ---------------------------------------------------------------------------
+def generate_obsidian_todos(repos_data: dict, date_str: str) -> Path | None:
+    """Generate an Obsidian-compatible markdown todo file with coding next steps."""
+    out_path = Path(OBSIDIAN_TODO_PATH)
+
+    # Skip if parent directory doesn't exist (e.g. running in CI)
+    if not out_path.parent.exists():
+        return None
+
+    now = datetime.now(timezone.utc)
+
+    lines = [
+        "---",
+        "type: todo",
+        f"created: {date_str}",
+        f"modified: {now.strftime('%Y-%m-%d %H:%M')}",
+        "tags:",
+        "  - coding",
+        "  - auto-generated",
+        "categories:",
+        "  - coding",
+        "projects:",
+        "due date:",
+        "priority:",
+        "complete: false",
+        "permalink:",
+        "---",
+        "",
+        "## Coding",
+        "",
+    ]
+
+    for repo_name, rdata in repos_data.items():
+        display_name = repo_name.split("/")[-1]
+        next_steps = rdata.get("next_steps", "")
+
+        # Normalize next_steps
+        if isinstance(next_steps, list):
+            next_steps = "\n".join(next_steps)
+
+        if not next_steps.strip():
+            continue
+
+        lines.append(f"### {display_name}")
+
+        # Convert bullet points to Obsidian checkbox format
+        for bullet_line in next_steps.strip().split("\n"):
+            bullet_line = bullet_line.strip()
+            if not bullet_line:
+                continue
+            # Strip leading bullet characters
+            cleaned = bullet_line.lstrip("\u2022-* ").strip()
+            if cleaned:
+                lines.append(f"- [ ] {cleaned}")
+
+        lines.append("")  # blank line between repos
+
+    out_path.write_text("\n".join(lines))
+    return out_path
 
 
 # ---------------------------------------------------------------------------
@@ -439,8 +516,8 @@ def main() -> None:
             ai_result = ai.generate(full_name, repo.get("description") or "", activity)
         else:
             ai_result = {
-                "summary": "Repository was pushed to but no new commits, PRs, or issues were detected in this window.",
-                "next_steps": "• Review any in-progress work\n• Check for pending branch merges",
+                "summary": "Pushed but no new commits, PRs, or issues detected.",
+                "next_steps": "• Review in-progress work\n• Check pending branch merges",
             }
 
         repos_data[full_name] = {
@@ -463,6 +540,11 @@ def main() -> None:
     generated_at = now.strftime("%b %d, %Y at %I:%M %p UTC")
     build_dashboard(repos_data, historical, username, generated_at)
     print(f"Dashboard → docs/index.html")
+
+    # Generate Obsidian todo file
+    todo_path = generate_obsidian_todos(repos_data, today_str)
+    if todo_path:
+        print(f"Obsidian todos → {todo_path}")
 
 
 if __name__ == "__main__":

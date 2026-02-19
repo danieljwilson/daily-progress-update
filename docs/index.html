@@ -39,10 +39,10 @@
     a:hover { text-decoration: underline; }
 
     /* ── Layout ────────────────────────────────────────────────────── */
-    .container { max-width: 960px; margin: 0 auto; }
+    .container { max-width: 1200px; margin: 0 auto; }
 
     /* ── Header ────────────────────────────────────────────────────── */
-    .header { margin-bottom: 2rem; }
+    .header { margin-bottom: 1.5rem; }
 
     .header h1 {
       font-size: 1.75rem;
@@ -61,7 +61,7 @@
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .stat {
@@ -74,35 +74,44 @@
     .stat .value { font-size: 1.5rem; font-weight: 700; }
     .stat .label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; }
 
-    /* ── Repo card ─────────────────────────────────────────────────── */
-    .repo-card {
+    /* ── Project grid ─────────────────────────────────────────────── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Compact tile (default collapsed state) ───────────────────── */
+    .repo-tile {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 1.5rem;
-      margin-bottom: 1.25rem;
+      padding: 1rem 1.15rem;
+      cursor: pointer;
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
-    .repo-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin-bottom: .25rem;
+    .repo-tile:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.10);
     }
 
-    .repo-name {
-      font-size: 1.15rem;
+    .repo-tile .repo-name {
+      font-size: 1rem;
       font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
     }
 
-    .repo-badges {
+    .repo-tile .repo-badges {
       display: flex;
-      gap: .5rem;
+      gap: .4rem;
       align-items: center;
-      font-size: .78rem;
+      font-size: .72rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.4rem;
     }
 
     .badge {
@@ -116,13 +125,56 @@
     .badge-time    { background: var(--bg); color: var(--text-dim); }
     .badge-commits { background: var(--green-bg); color: var(--green); }
 
+    .tile-summary {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── Expanded state ───────────────────────────────────────────── */
+    .repo-tile.expanded {
+      grid-column: 1 / -1;
+      cursor: default;
+      border-color: var(--accent);
+      padding: 1.5rem;
+    }
+
+    .tile-details {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .repo-tile.expanded .tile-details {
+      display: block;
+    }
+
+    .repo-tile.expanded .tile-summary {
+      display: none;
+    }
+
+    .collapse-hint {
+      display: none;
+      font-size: .72rem;
+      color: var(--text-dim);
+      float: right;
+      margin-top: .1rem;
+    }
+
+    .repo-tile.expanded .collapse-hint {
+      display: inline;
+    }
+
     .repo-desc {
       color: var(--text-dim);
       font-size: .875rem;
       margin-bottom: 1rem;
     }
 
-    /* ── Sections inside card ──────────────────────────────────────── */
+    /* ── Sections inside expanded tile ────────────────────────────── */
     .section-label {
       font-size: .7rem;
       font-weight: 700;
@@ -170,8 +222,8 @@
       user-select: none;
     }
     details summary::-webkit-details-marker { display: none; }
-    details summary::before { content: "▸ "; }
-    details[open] summary::before { content: "▾ "; }
+    details summary::before { content: "\25b8 "; }
+    details[open] summary::before { content: "\25be "; }
 
     .day-group { margin-bottom: .75rem; }
     .day-label {
@@ -231,6 +283,7 @@
       body { padding: 1rem .5rem; }
       .stats { gap: .75rem; }
       .stat { flex: 1 1 calc(50% - .75rem); }
+      .project-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -242,7 +295,7 @@
       <h1>Daily Progress</h1>
       <div class="meta">
         <a href="https://github.com/danieljwilson">danieljwilson</a>
-        &middot; Updated Feb 19, 2026 at 06:58 AM UTC
+        &middot; Updated Feb 19, 2026 at 03:00 PM UTC
         &middot; Showing repos active in the last 14 days
       </div>
     </header>
@@ -254,7 +307,7 @@
         <div class="label">Active Repos</div>
       </div>
       <div class="stat">
-        <div class="value">81</div>
+        <div class="value">78</div>
         <div class="label">Commits</div>
       </div>
       <div class="stat">
@@ -263,1115 +316,1150 @@
       </div>
     </div>
 
-    <!-- Repo cards -->
+    <!-- Project grid -->
     
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/daily-progress-update" target="_blank" rel="noopener">
-          danieljwilson/daily-progress-update
+    <div class="project-grid">
+      
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/daily-progress-update" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          daily-progress-update
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">Python</span>
           
-          <span class="badge badge-time">10h ago</span>
+          <span class="badge badge-time">16h ago</span>
           
-          <span class="badge badge-commits">3 commits</span>
+          <span class="badge badge-commits">1 commit</span>
           
         </div>
-      </div>
 
-      
-
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">A new GitHub activity tracker with AI-powered daily summaries was implemented. The system appears to be automated, with a GitHub Actions bot making daily progress updates. The initial feature commit was authored by Claude, suggesting AI-assisted development, and was followed by an automated daily update.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">['• Add documentation including a README with setup instructions and usage examples', '• Configure the automation schedule and verify the daily update workflow is running correctly', '• Implement error handling and logging for the automated summary generation', '• Add tests to ensure the activity tracking and AI summary generation work reliably', '• Consider adding customization options for summary format and frequency']</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (3 items)</summary>
+        <!-- Truncated summary (visible when collapsed) -->
         
+        <div class="tile-summary">A new feature was implemented to create a GitHub activity tracker that generates AI-powered daily summaries. The commit was authored by Claude, suggesting an AI-assisted development approach. This appears to be the foundational commit for the repository, establishing the core functionality of tracking and summarizing daily progress.</div>
         
-        <div class="day-group">
-          <div class="day-label">2026-02-19</div>
+
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">d253dcf</span>
-            <span class="activity-msg">chore: daily progress update 2026-02-18</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">13c770b</span>
-            <span class="activity-msg">feat: GitHub activity tracker with AI-powered daily summaries</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">A new feature was implemented to create a GitHub activity tracker that generates AI-powered daily summaries. The commit was authored by Claude, suggesting an AI-assisted development approach. This appears to be the foundational commit for the repository, establishing the core functionality of tracking and summarizing daily progress.</div>
           </div>
           
 
           
-
-          
-        </div>
-        
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
-
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">13c770b</span>
-            <span class="activity-msg">feat: GitHub activity tracker with AI-powered daily summaries</span>
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">• Add repository description to clarify the project's purpose and usage
+• Implement authentication and configuration for GitHub API access
+• Create documentation including setup instructions and usage examples
+• Add error handling and rate limiting for API calls
+• Set up automated scheduling for daily summary generation</div>
           </div>
           
 
           
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (1 item)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
 
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">13c770b</span>
+                <span class="activity-msg">feat: GitHub activity tracker with AI-powered daily summaries</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/event-image-2-calendar" target="_blank" rel="noopener">
-          danieljwilson/event-image-2-calendar
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/event-image-2-calendar" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          event-image-2-calendar
         </a>
         <div class="repo-badges">
           
-          <span class="badge badge-time">19h ago</span>
+          <span class="badge badge-time">1h ago</span>
           
         </div>
-      </div>
 
-      
+        <!-- Truncated summary (visible when collapsed) -->
+        
+        <div class="tile-summary">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
+        
 
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
+          
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
+          </div>
+          
+
+          
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">• Review any in-progress work
 • Check for pending branch merges</div>
-      </div>
-      
+          </div>
+          
 
-      <!-- Expandable activity log -->
+          
+          
+        </div>
+      </article>
       
-      
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/strava-crossing-paths" target="_blank" rel="noopener">
-          danieljwilson/strava-crossing-paths
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/strava-crossing-paths" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          strava-crossing-paths
         </a>
         <div class="repo-badges">
           
-          <span class="badge badge-time">19h ago</span>
+          <span class="badge badge-time">1h ago</span>
           
         </div>
-      </div>
 
-      
+        <!-- Truncated summary (visible when collapsed) -->
+        
+        <div class="tile-summary">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
+        
 
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
+          
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
+          </div>
+          
+
+          
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">• Review any in-progress work
 • Check for pending branch merges</div>
-      </div>
-      
+          </div>
+          
 
-      <!-- Expandable activity log -->
+          
+          
+        </div>
+      </article>
       
-      
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/16sub16" target="_blank" rel="noopener">
-          danieljwilson/16sub16
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/16sub16" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          16sub16
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">HTML</span>
           
-          <span class="badge badge-time">23h ago</span>
+          <span class="badge badge-time">6h ago</span>
           
-          <span class="badge badge-commits">25 commits</span>
-          
-        </div>
-      </div>
-
-      
-
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">The repository had an automated commit that updated the Banister model. This was performed by a GitHub Actions bot and marked to skip continuous integration checks. The commit appears to be part of an automated workflow related to maintaining or updating model data.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">['• Review the updated Banister model parameters to ensure the automated changes are accurate and expected', '• Verify that the automated workflow is producing meaningful updates and not just making trivial changes', '• Consider adding validation checks to the GitHub Actions workflow to catch potential issues before committing', '• Document the purpose and frequency of these automated model updates in the repository README']</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (26 items)</summary>
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-19</div>
-
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">5a99089</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-
-          
-
+          <span class="badge badge-commits">24 commits</span>
           
         </div>
+
+        <!-- Truncated summary (visible when collapsed) -->
         
+        <div class="tile-summary">The repository implements a fitness tracking system using the Banister impulse-response model, integrating data from both Strava and TrainingPeaks. Recent work focused on building an automated pipeline that fetches training data, fits the Banister model to calculate fitness and fatigue metrics, and visualizes the results through a GitHub Pages site (index.html). Multiple commits refined the UI/UX, adjusted model parameters, and established automated updates via GitHub Actions.</div>
         
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">5a99089</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">4f05359</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">dc7f477</span>
-            <span class="activity-msg">refactor: improve user interface and update Banister model parameters</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">5f8bdf1</span>
-            <span class="activity-msg">Merge pull request #1 from danieljwilson/codex/backfill-tp</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">2af8916</span>
-            <span class="activity-msg">refactor: update Banister model parameters and enhance HTML structure</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">fb069b3</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">9e77de1</span>
-            <span class="activity-msg">feat: import TrainingPeaks runs and support Strava backfill</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">9fe9e10</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">aafe9f8</span>
-            <span class="activity-msg">refactor: update styles in index.html and enhance Banister model fitting logic</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">6add98a</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">fec258a</span>
-            <span class="activity-msg">refactor: enhance legend annotation layout in index.html for improved clarity</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">0b679a4</span>
-            <span class="activity-msg">fix: adjust spacing in legend annotations for improved readability</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">1a9ac33</span>
-            <span class="activity-msg">Fixed spacing on distribution labels</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">41287f2</span>
-            <span class="activity-msg">refactor: improve annotation layout and styling in index.html for better clarity</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">e2e1f0d</span>
-            <span class="activity-msg">refactor: streamline annotation display in index.html for improved clarity</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">416783b</span>
-            <span class="activity-msg">style: enhance annotations and layout in index.html for improved readability</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">a685efe</span>
-            <span class="activity-msg">feat: implement trailing mean for Banister model and enhance visualizations</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">c1b95f5</span>
-            <span class="activity-msg">refactor: enhance projection logic in update_banister.py and clean up index.html styles</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">7239cba</span>
-            <span class="activity-msg">fix: update file references from 16sub16_tracker.html to index.html</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">afbb01a</span>
-            <span class="activity-msg">chore: rename to index.html for GitHub Pages</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">66183ef</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">9c19792</span>
-            <span class="activity-msg">chore: update Banister model [skip ci]</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">058d8a4</span>
-            <span class="activity-msg">fix: quote secret expressions in workflow env block</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">1bb5aa0</span>
-            <span class="activity-msg">feat: add Strava → Banister fitness-fatigue pipeline</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">The repository implements a fitness tracking system using the Banister impulse-response model, integrating data from both Strava and TrainingPeaks. Recent work focused on building an automated pipeline that fetches training data, fits the Banister model to calculate fitness and fatigue metrics, and visualizes the results through a GitHub Pages site (index.html). Multiple commits refined the UI/UX, adjusted model parameters, and established automated updates via GitHub Actions.</div>
           </div>
           
 
           
-          <div class="activity-item">
-            <span class="activity-icon pr-icon">&#9679;</span>
-            <span class="activity-msg">
-              <a href="https://github.com/danieljwilson/16sub16/pull/1" target="_blank" rel="noopener">#1</a>
-              Add TrainingPeaks backfill and Banister model updates
-              <span style="color:var(--text-dim)">[merged]</span>
-            </span>
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">['• Add documentation explaining the Banister model parameters (tau1, tau2, k1, k2) and how users can interpret their fitness/fatigue curves', '• Implement error handling and validation for the Strava and TrainingPeaks API integrations to handle rate limits and missing data', '• Add unit tests for the Banister model fitting logic in update_banister.py to ensure accuracy of projections', '• Consider adding user configuration options to customize model parameters or data sources without modifying code', '• Explore additional visualizations such as form (fitness minus fatigue) or performance predictions for upcoming race dates']</div>
           </div>
           
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (25 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">5a99089</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">4f05359</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">dc7f477</span>
+                <span class="activity-msg">refactor: improve user interface and update Banister model parameters</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">5f8bdf1</span>
+                <span class="activity-msg">Merge pull request #1 from danieljwilson/codex/backfill-tp</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">2af8916</span>
+                <span class="activity-msg">refactor: update Banister model parameters and enhance HTML structure</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">fb069b3</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">9e77de1</span>
+                <span class="activity-msg">feat: import TrainingPeaks runs and support Strava backfill</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">9fe9e10</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">aafe9f8</span>
+                <span class="activity-msg">refactor: update styles in index.html and enhance Banister model fitting logic</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">6add98a</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">fec258a</span>
+                <span class="activity-msg">refactor: enhance legend annotation layout in index.html for improved clarity</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">0b679a4</span>
+                <span class="activity-msg">fix: adjust spacing in legend annotations for improved readability</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">1a9ac33</span>
+                <span class="activity-msg">Fixed spacing on distribution labels</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">41287f2</span>
+                <span class="activity-msg">refactor: improve annotation layout and styling in index.html for better clarity</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">e2e1f0d</span>
+                <span class="activity-msg">refactor: streamline annotation display in index.html for improved clarity</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">416783b</span>
+                <span class="activity-msg">style: enhance annotations and layout in index.html for improved readability</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">a685efe</span>
+                <span class="activity-msg">feat: implement trailing mean for Banister model and enhance visualizations</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">c1b95f5</span>
+                <span class="activity-msg">refactor: enhance projection logic in update_banister.py and clean up index.html styles</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">7239cba</span>
+                <span class="activity-msg">fix: update file references from 16sub16_tracker.html to index.html</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">afbb01a</span>
+                <span class="activity-msg">chore: rename to index.html for GitHub Pages</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">66183ef</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">9c19792</span>
+                <span class="activity-msg">chore: update Banister model [skip ci]</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">058d8a4</span>
+                <span class="activity-msg">fix: quote secret expressions in workflow env block</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">1bb5aa0</span>
+                <span class="activity-msg">feat: add Strava → Banister fitness-fatigue pipeline</span>
+              </div>
+              
+
+              
+              <div class="activity-item">
+                <span class="activity-icon pr-icon">&#9679;</span>
+                <span class="activity-msg">
+                  <a href="https://github.com/danieljwilson/16sub16/pull/1" target="_blank" rel="noopener"
+                     onclick="event.stopPropagation()">#1</a>
+                  Add TrainingPeaks backfill and Banister model updates
+                  <span style="color:var(--text-dim)">[merged]</span>
+                </span>
+              </div>
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/personal-website" target="_blank" rel="noopener">
-          danieljwilson/personal-website
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/personal-website" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          personal-website
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">Nunjucks</span>
           
-          <span class="badge badge-time">8h ago</span>
+          <span class="badge badge-time">14h ago</span>
           
           <span class="badge badge-commits">20 commits</span>
           
         </div>
-      </div>
 
-      
-      <div class="repo-desc">Personal website with dynamic metrics</div>
-      
-
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
-• Check for pending branch merges</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (20 items)</summary>
+        <!-- Truncated summary (visible when collapsed) -->
         
+        <div class="tile-summary">The developer made substantial improvements to their personal website, focusing on three main areas: adding a comprehensive CV page with PDF generation capabilities, implementing dynamic content display with modals and tab navigation for projects and writing, and enhancing markdown rendering with Obsidian syntax support including callouts, footnotes, and highlighted text. Additionally, they improved the robustness of weather data fetching with better API integration, error handling, and fallback mechanisms for location updates.</div>
         
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
+          <div class="repo-desc">Personal website with dynamic metrics</div>
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">c45394f</span>
-            <span class="activity-msg">Simplify CV education to PhD only with completion year</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">8e189bf</span>
-            <span class="activity-msg">Replace Academic CV PDF with generated version from web CV</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">15d1218</span>
-            <span class="activity-msg">Add CV page at /cv/ with downloadable PDF</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">681465e</span>
-            <span class="activity-msg">Add click event listener to display past details in index.njk</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">c00772d</span>
-            <span class="activity-msg">Updated CLAUDE.md</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">0e21568</span>
-            <span class="activity-msg">Update Eleventy configuration to change the processing order of Obsidian callouts from block to inline, improving the ha</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">ebe686e</span>
-            <span class="activity-msg">Enhance styles.css with new styles for code blocks, inline code, and Obsidian callout boxes. Introduce highlighted text </span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">cd1f1a3</span>
-            <span class="activity-msg">Implement fallback mechanism for IP-based location updates in ingest.js, ensuring that only non-recent GPS locations tri</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">10fa418</span>
-            <span class="activity-msg">Update package-lock.json to include additional markdown-it plugins: markdown-it-footnote, markdown-it-mark, and markdown</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">c0ab968</span>
-            <span class="activity-msg">Implement input management in Eleventy configuration by adding collections for latest and all inputs by category. Update</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">d720950</span>
-            <span class="activity-msg">Enhance Eleventy configuration by adding Obsidian syntax linting and support for additional markdown-it plugins. Update </span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">fb7cacb</span>
-            <span class="activity-msg">Refactor weather data handling in weather.js to integrate WeatherAPI, updating fetchCurrentWeather to utilize new API st</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">41b5f99</span>
-            <span class="activity-msg">Enhance fetchCurrentWeather function in weather.js to accept an options parameter for ignoring backoff on recent failure</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">6aafc11</span>
-            <span class="activity-msg">Update Eleventy configuration to ignore worker files and remove uncategorized writing collection. Revise project descrip</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">c72a49e</span>
-            <span class="activity-msg">Implement writing category tabs for posts and tips in index.njk and writing.njk; enhance styles.css for tab navigation a</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">7c31aeb</span>
-            <span class="activity-msg">Add post-deploy health check workflow</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">ae4e0bd</span>
-            <span class="activity-msg">Implement content modal for projects and writing sections in projects.njk and writing.njk; update styles.css for modal n</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">b38ad10</span>
-            <span class="activity-msg">Update styles.css to increase font size for project and writing headings for improved visibility.</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">9f3ff1b</span>
-            <span class="activity-msg">Improve error handling in weather.js by adding console logging for API response status and message; refactor fetch call </span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">fd983ca</span>
-            <span class="activity-msg">Refactor weather data fetching in weather.js to ensure latitude and longitude are properly converted to numbers; enhance</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">The developer made substantial improvements to their personal website, focusing on three main areas: adding a comprehensive CV page with PDF generation capabilities, implementing dynamic content display with modals and tab navigation for projects and writing, and enhancing markdown rendering with Obsidian syntax support including callouts, footnotes, and highlighted text. Additionally, they improved the robustness of weather data fetching with better API integration, error handling, and fallback mechanisms for location updates.</div>
           </div>
           
 
           
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">['• Add more sections to the CV page beyond education (e.g., experience, publications, skills) to make it more comprehensive', '• Implement automated testing for the modal and tab navigation features to ensure cross-browser compatibility', '• Expand the health check workflow to monitor API endpoints (weather, location) and alert on failures', '• Create documentation for the Obsidian markdown syntax support to help with content authoring', '• Optimize the PDF generation process for the CV to ensure consistent formatting and styling']</div>
+          </div>
+          
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (20 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">c45394f</span>
+                <span class="activity-msg">Simplify CV education to PhD only with completion year</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">8e189bf</span>
+                <span class="activity-msg">Replace Academic CV PDF with generated version from web CV</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">15d1218</span>
+                <span class="activity-msg">Add CV page at /cv/ with downloadable PDF</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">681465e</span>
+                <span class="activity-msg">Add click event listener to display past details in index.njk</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">c00772d</span>
+                <span class="activity-msg">Updated CLAUDE.md</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">0e21568</span>
+                <span class="activity-msg">Update Eleventy configuration to change the processing order of Obsidian callouts from block to inline, improving the ha</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">ebe686e</span>
+                <span class="activity-msg">Enhance styles.css with new styles for code blocks, inline code, and Obsidian callout boxes. Introduce highlighted text </span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">cd1f1a3</span>
+                <span class="activity-msg">Implement fallback mechanism for IP-based location updates in ingest.js, ensuring that only non-recent GPS locations tri</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">10fa418</span>
+                <span class="activity-msg">Update package-lock.json to include additional markdown-it plugins: markdown-it-footnote, markdown-it-mark, and markdown</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">c0ab968</span>
+                <span class="activity-msg">Implement input management in Eleventy configuration by adding collections for latest and all inputs by category. Update</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">d720950</span>
+                <span class="activity-msg">Enhance Eleventy configuration by adding Obsidian syntax linting and support for additional markdown-it plugins. Update </span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">fb7cacb</span>
+                <span class="activity-msg">Refactor weather data handling in weather.js to integrate WeatherAPI, updating fetchCurrentWeather to utilize new API st</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">41b5f99</span>
+                <span class="activity-msg">Enhance fetchCurrentWeather function in weather.js to accept an options parameter for ignoring backoff on recent failure</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">6aafc11</span>
+                <span class="activity-msg">Update Eleventy configuration to ignore worker files and remove uncategorized writing collection. Revise project descrip</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">c72a49e</span>
+                <span class="activity-msg">Implement writing category tabs for posts and tips in index.njk and writing.njk; enhance styles.css for tab navigation a</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">7c31aeb</span>
+                <span class="activity-msg">Add post-deploy health check workflow</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">ae4e0bd</span>
+                <span class="activity-msg">Implement content modal for projects and writing sections in projects.njk and writing.njk; update styles.css for modal n</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">b38ad10</span>
+                <span class="activity-msg">Update styles.css to increase font size for project and writing headings for improved visibility.</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">9f3ff1b</span>
+                <span class="activity-msg">Improve error handling in weather.js by adding console logging for API response status and message; refactor fetch call </span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">fd983ca</span>
+                <span class="activity-msg">Refactor weather data fetching in weather.js to ensure latitude and longitude are properly converted to numbers; enhance</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/2026_paper_dgibg" target="_blank" rel="noopener">
-          danieljwilson/2026_paper_dgibg
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/2026_paper_dgibg" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          2026_paper_dgibg
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">HTML</span>
           
-          <span class="badge badge-time">9h ago</span>
+          <span class="badge badge-time">15h ago</span>
           
           <span class="badge badge-commits">4 commits</span>
           
         </div>
-      </div>
 
-      
-      <div class="repo-desc">DG-IBG psychometric measure: scale development and validation paper</div>
-      
+        <!-- Truncated summary (visible when collapsed) -->
+        
+        <div class="tile-summary">The repository establishes a comprehensive psychometric validation pipeline for the DG-IBG scale across four commits. Initial scaffolding and preprocessing were built, followed by critical data quality fixes addressing sign-flip errors in SGRIT and Quality of Life measures. The core analysis priorities (descriptives, tables, and figures) were then implemented, with manuscript content expanded alongside enhanced data processing capabilities.</div>
+        
 
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
-• Check for pending branch merges</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (4 items)</summary>
-        
-        
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
+          <div class="repo-desc">DG-IBG psychometric measure: scale development and validation paper</div>
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">e1331c8</span>
-            <span class="activity-msg">Update .gitignore, enhance data loading and processing, and expand manuscript content</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">7f228b7</span>
-            <span class="activity-msg">Fix SGRIT and QoL cross-study sign flips in preprocessing</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">2a3cbf9</span>
-            <span class="activity-msg">Implement analysis priorities 1-6: descriptives through tables/figures</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">58e8b9b</span>
-            <span class="activity-msg">Initial commit: preprocessing pipeline and project scaffolding</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">The repository establishes a comprehensive psychometric validation pipeline for the DG-IBG scale across four commits. Initial scaffolding and preprocessing were built, followed by critical data quality fixes addressing sign-flip errors in SGRIT and Quality of Life measures. The core analysis priorities (descriptives, tables, and figures) were then implemented, with manuscript content expanded alongside enhanced data processing capabilities.</div>
           </div>
           
 
           
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">['• Complete remaining analysis priorities beyond items 1-6, likely including reliability analyses, confirmatory factor analysis, and convergent/discriminant validity testing', '• Draft or expand results and discussion sections of the manuscript to interpret the generated tables and figures', '• Conduct cross-validation analyses across studies to ensure measurement invariance given the cross-study data corrections', '• Prepare supplementary materials and finalize manuscript formatting for journal submission', '• Run sensitivity analyses to verify robustness of findings after the SGRIT/QoL sign-flip corrections']</div>
+          </div>
+          
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (4 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">e1331c8</span>
+                <span class="activity-msg">Update .gitignore, enhance data loading and processing, and expand manuscript content</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">7f228b7</span>
+                <span class="activity-msg">Fix SGRIT and QoL cross-study sign flips in preprocessing</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">2a3cbf9</span>
+                <span class="activity-msg">Implement analysis priorities 1-6: descriptives through tables/figures</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">58e8b9b</span>
+                <span class="activity-msg">Initial commit: preprocessing pipeline and project scaffolding</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/passive-data-15min-blocks" target="_blank" rel="noopener">
-          danieljwilson/passive-data-15min-blocks
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/passive-data-15min-blocks" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          passive-data-15min-blocks
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">Python</span>
           
-          <span class="badge badge-time">9h ago</span>
+          <span class="badge badge-time">15h ago</span>
           
           <span class="badge badge-commits">3 commits</span>
           
         </div>
-      </div>
 
-      
+        <!-- Truncated summary (visible when collapsed) -->
+        
+        <div class="tile-summary">A passive sensing data pipeline was created from scratch and then underwent initial organizational improvements. The developer moved data dictionary files into a docs/ folder for better organization and updated all related path references. Pickle output functionality was disabled and the README was updated to reflect the new folder structure.</div>
+        
 
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
-• Check for pending branch merges</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (3 items)</summary>
-        
-        
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">164910e</span>
-            <span class="activity-msg">Disable pickle output and update README folder structure</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">25c982c</span>
-            <span class="activity-msg">Move data_dictionary files to docs/ and update all path references</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">554c19b</span>
-            <span class="activity-msg">Initial commit: passive sensing data pipeline</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">A passive sensing data pipeline was created from scratch and then underwent initial organizational improvements. The developer moved data dictionary files into a docs/ folder for better organization and updated all related path references. Pickle output functionality was disabled and the README was updated to reflect the new folder structure.</div>
           </div>
           
 
           
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">• Add a repository description to help users understand the project's purpose
+• Document the data pipeline's functionality, input/output formats, and usage instructions
+• Consider adding example usage or sample data to demonstrate the 15-minute block processing
+• Implement proper data validation and error handling for the pipeline
+• Set up testing infrastructure to ensure data processing integrity</div>
+          </div>
+          
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (3 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">164910e</span>
+                <span class="activity-msg">Disable pickle output and update README folder structure</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">25c982c</span>
+                <span class="activity-msg">Move data_dictionary files to docs/ and update all path references</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">554c19b</span>
+                <span class="activity-msg">Initial commit: passive sensing data pipeline</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/ios-exporter-app" target="_blank" rel="noopener">
-          danieljwilson/ios-exporter-app
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/ios-exporter-app" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          ios-exporter-app
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">Swift</span>
           
-          <span class="badge badge-time">9h ago</span>
+          <span class="badge badge-time">15h ago</span>
           
           <span class="badge badge-commits">4 commits</span>
           
         </div>
-      </div>
 
-      
-      <div class="repo-desc">iOS HealthKit data exporter app</div>
-      
+        <!-- Truncated summary (visible when collapsed) -->
+        
+        <div class="tile-summary">The developer enhanced the iOS HealthKit exporter app with automation and infrastructure improvements. Key additions include a URL scheme for Shortcuts-based auto-sync with failure notifications, routing sync operations through a centralized ContentViewModel with persistent HealthKit authorization state, and a custom cloud-upload icon. Development workflow was also improved by excluding Claude AI settings from version control.</div>
+        
 
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
-• Check for pending branch merges</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (4 items)</summary>
-        
-        
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
+          <div class="repo-desc">iOS HealthKit data exporter app</div>
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">21dbcb1</span>
-            <span class="activity-msg">Update .gitignore to exclude local Claude AI settings file</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">925a4cf</span>
-            <span class="activity-msg">Route URL sync through ContentViewModel and persist HealthKit auth state</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">edf232a</span>
-            <span class="activity-msg">Add custom cloud-upload app icon</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">4d636ad</span>
-            <span class="activity-msg">Add URL scheme and failure notifications for Shortcuts-based auto-sync</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">The developer enhanced the iOS HealthKit exporter app with automation and infrastructure improvements. Key additions include a URL scheme for Shortcuts-based auto-sync with failure notifications, routing sync operations through a centralized ContentViewModel with persistent HealthKit authorization state, and a custom cloud-upload icon. Development workflow was also improved by excluding Claude AI settings from version control.</div>
           </div>
           
 
           
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">['• Test the Shortcuts-based auto-sync workflow end-to-end to validate URL scheme handling and failure notification delivery', '• Document the URL scheme format and parameters for users who want to create automation shortcuts', '• Add success notifications to complement the failure notifications for better user feedback', '• Implement error handling and retry logic for failed sync operations', '• Consider adding sync history or logs to help users troubleshoot automation issues']</div>
+          </div>
+          
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (4 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">21dbcb1</span>
+                <span class="activity-msg">Update .gitignore to exclude local Claude AI settings file</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">925a4cf</span>
+                <span class="activity-msg">Route URL sync through ContentViewModel and persist HealthKit auth state</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">edf232a</span>
+                <span class="activity-msg">Add custom cloud-upload app icon</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">4d636ad</span>
+                <span class="activity-msg">Add URL scheme and failure notifications for Shortcuts-based auto-sync</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/personal-website-content" target="_blank" rel="noopener">
-          danieljwilson/personal-website-content
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/personal-website-content" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          personal-website-content
         </a>
         <div class="repo-badges">
           
-          <span class="badge badge-time">10h ago</span>
+          <span class="badge badge-time">16h ago</span>
           
           <span class="badge badge-commits">17 commits</span>
           
         </div>
-      </div>
 
-      
-
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
-• Check for pending branch merges</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (17 items)</summary>
+        <!-- Truncated summary (visible when collapsed) -->
         
+        <div class="tile-summary">The repository shows active content management for a personal website, with a strong focus on adding new inputs (podcasts, NotebookLM notebooks, and articles) throughout mid-February 2026. The owner is maintaining a content pipeline with regular additions of consumed media and written pieces. There's also ongoing cleanup work including removing outdated content, fixing broken URLs, adjusting formatting, and updating metadata like featured flags and status markers.</div>
         
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">782cdd1</span>
-            <span class="activity-msg">Add new inputs: 1 podcast, 3 notebooklm notebooks (2026-02-17)</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">4364793</span>
-            <span class="activity-msg">Add new inputs: 2 podcasts, 5 notebooklm notebooks (2026-02-16)</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">27f82cf</span>
-            <span class="activity-msg">Add new inputs: daily-tech-digest-2026-02-13, pogacar-controversial-sponsor-lrcp</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">22ac5e7</span>
-            <span class="activity-msg">Add new input: we-didnt-ask-for-this-internet</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">22617b4</span>
-            <span class="activity-msg">Add new inputs: bio-anchors, neural-probabilistic-language-model, hard-fork-something-big</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">dae7712</span>
-            <span class="activity-msg">Fix broken logo URL for Conversations with Tyler episode</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">f11e036</span>
-            <span class="activity-msg">Add new inputs: waseem-daher-passion, sorkin-market-bubbles, daily-tech-digest, accelerating-scientific-research-gemini</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">2dd6713</span>
-            <span class="activity-msg">Add new input(s): loneliness-of-sonia-and-sunny, wwdtm-lucy-dacus, psychology-financial-planning</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">eb72aea</span>
-            <span class="activity-msg">Add new input(s): mastering-customer-interviews, flipping-ropes, we-had-six-months-left, is-wokeness-finally-dead, phrac</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">2b5209c</span>
-            <span class="activity-msg">Update 'The SaaS Playbook' entry: format adjustments, set finish date, and ensure consistent creator information.</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">7aaf6ae</span>
-            <span class="activity-msg">Remove unnecessary newline in post_email-to-input-pipeline.md for improved formatting</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">03ee00b</span>
-            <span class="activity-msg">Remove outdated image from project-pairent.md, update image reference, and change status of multiple writing files to dr</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">c53dd3b</span>
-            <span class="activity-msg">Add new input(s): input_podcast_andreas-almgren-training-diet.md</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">0fdabb8</span>
-            <span class="activity-msg">Refactor section headers in LLM code cleanup markdown for improved clarity</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">0ccc9c6</span>
-            <span class="activity-msg">Update featured flag in another-placeholder.md and remove extra newline in tips-uniqlo-base-layer-cycling.md</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">94f386a</span>
-            <span class="activity-msg">Remove the LLM code de-cruftification markdown file, streamlining the writing directory by eliminating outdated content.</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">fdfc085</span>
-            <span class="activity-msg">Update .gitignore, remove unused images and markdown files, and adjust featured flags for writing entries</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">The repository shows active content management for a personal website, with a strong focus on adding new inputs (podcasts, NotebookLM notebooks, and articles) throughout mid-February 2026. The owner is maintaining a content pipeline with regular additions of consumed media and written pieces. There's also ongoing cleanup work including removing outdated content, fixing broken URLs, adjusting formatting, and updating metadata like featured flags and status markers.</div>
           </div>
           
 
           
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">['• Continue the established daily input logging pattern, maintaining the momentum of podcast and notebook entries', '• Review and update the status of additional writing files that may need to be marked as drafts or archived', '• Audit remaining images and media files for broken or outdated references similar to the logo URL fix', '• Document or refine the email-to-input pipeline process that was recently formatted', '• Consider batch processing formatting improvements across older content entries to maintain consistency']</div>
+          </div>
+          
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (17 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">782cdd1</span>
+                <span class="activity-msg">Add new inputs: 1 podcast, 3 notebooklm notebooks (2026-02-17)</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">4364793</span>
+                <span class="activity-msg">Add new inputs: 2 podcasts, 5 notebooklm notebooks (2026-02-16)</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">27f82cf</span>
+                <span class="activity-msg">Add new inputs: daily-tech-digest-2026-02-13, pogacar-controversial-sponsor-lrcp</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">22ac5e7</span>
+                <span class="activity-msg">Add new input: we-didnt-ask-for-this-internet</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">22617b4</span>
+                <span class="activity-msg">Add new inputs: bio-anchors, neural-probabilistic-language-model, hard-fork-something-big</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">dae7712</span>
+                <span class="activity-msg">Fix broken logo URL for Conversations with Tyler episode</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">f11e036</span>
+                <span class="activity-msg">Add new inputs: waseem-daher-passion, sorkin-market-bubbles, daily-tech-digest, accelerating-scientific-research-gemini</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">2dd6713</span>
+                <span class="activity-msg">Add new input(s): loneliness-of-sonia-and-sunny, wwdtm-lucy-dacus, psychology-financial-planning</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">eb72aea</span>
+                <span class="activity-msg">Add new input(s): mastering-customer-interviews, flipping-ropes, we-had-six-months-left, is-wokeness-finally-dead, phrac</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">2b5209c</span>
+                <span class="activity-msg">Update 'The SaaS Playbook' entry: format adjustments, set finish date, and ensure consistent creator information.</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">7aaf6ae</span>
+                <span class="activity-msg">Remove unnecessary newline in post_email-to-input-pipeline.md for improved formatting</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">03ee00b</span>
+                <span class="activity-msg">Remove outdated image from project-pairent.md, update image reference, and change status of multiple writing files to dr</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">c53dd3b</span>
+                <span class="activity-msg">Add new input(s): input_podcast_andreas-almgren-training-diet.md</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">0fdabb8</span>
+                <span class="activity-msg">Refactor section headers in LLM code cleanup markdown for improved clarity</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">0ccc9c6</span>
+                <span class="activity-msg">Update featured flag in another-placeholder.md and remove extra newline in tips-uniqlo-base-layer-cycling.md</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">94f386a</span>
+                <span class="activity-msg">Remove the LLM code de-cruftification markdown file, streamlining the writing directory by eliminating outdated content.</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">fdfc085</span>
+                <span class="activity-msg">Update .gitignore, remove unused images and markdown files, and adjust featured flags for writing entries</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/danieljwilson/pairent-app" target="_blank" rel="noopener">
-          danieljwilson/pairent-app
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/danieljwilson/pairent-app" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          pairent-app
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">TypeScript</span>
           
-          <span class="badge badge-time">8d ago</span>
+          <span class="badge badge-time">9d ago</span>
           
           <span class="badge badge-commits">5 commits</span>
           
         </div>
-      </div>
 
-      
-
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
-
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
-• Check for pending branch merges</div>
-      </div>
-      
-
-      <!-- Expandable activity log -->
-      
-      
-      <details>
-        <summary>Activity Log (5 items)</summary>
+        <!-- Truncated summary (visible when collapsed) -->
         
+        <div class="tile-summary">The developer initialized a mobile application project called 'pairent-app' with a complete foundational setup. They established a monorepo architecture using Expo for mobile development, added comprehensive code quality tooling (ESLint, Prettier, pre-commit hooks, CI), and documented key technical decisions. A complete MVP roadmap was created with a 9-week timeline following a pipeline-first approach, accompanied by initial product requirements and wireframes.</div>
         
-        
-        
-        <div class="day-group">
-          <div class="day-label">2026-02-18</div>
+
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
 
           
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">70f0460</span>
-            <span class="activity-msg">Add MVP development roadmap: pipeline-first, 9-week plan</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">1d6fc3f</span>
-            <span class="activity-msg">Add PRD v1 and wireframes v1</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">d52d8d2</span>
-            <span class="activity-msg">Add code quality tooling: ESLint, Prettier, pre-commit hooks, CI</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">50e4c70</span>
-            <span class="activity-msg">Add decisions log capturing initial stack and architecture choices</span>
-          </div>
-          
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">57c7b69</span>
-            <span class="activity-msg">Initial monorepo scaffold: Expo mobile app + shared packages</span>
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">The developer initialized a mobile application project called 'pairent-app' with a complete foundational setup. They established a monorepo architecture using Expo for mobile development, added comprehensive code quality tooling (ESLint, Prettier, pre-commit hooks, CI), and documented key technical decisions. A complete MVP roadmap was created with a 9-week timeline following a pipeline-first approach, accompanied by initial product requirements and wireframes.</div>
           </div>
           
 
           
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">['• Begin Phase 1 of the 9-week MVP roadmap by implementing the core data pipeline components', '• Set up the development environment and validate the CI/CD pipeline with initial builds', '• Start implementing the core features outlined in the PRD v1, prioritizing the pipeline-first approach', '• Iterate on wireframes v1 based on technical constraints discovered during initial implementation', '• Configure deployment infrastructure for both mobile app and backend services']</div>
+          </div>
+          
 
+          
+          
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log (5 items)</summary>
+            
+            
+            <div class="day-group">
+              <div class="day-label">2026-02-18</div>
+
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">70f0460</span>
+                <span class="activity-msg">Add MVP development roadmap: pipeline-first, 9-week plan</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">1d6fc3f</span>
+                <span class="activity-msg">Add PRD v1 and wireframes v1</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">d52d8d2</span>
+                <span class="activity-msg">Add code quality tooling: ESLint, Prettier, pre-commit hooks, CI</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">50e4c70</span>
+                <span class="activity-msg">Add decisions log capturing initial stack and architecture choices</span>
+              </div>
+              
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">57c7b69</span>
+                <span class="activity-msg">Initial monorepo scaffold: Expo mobile app + shared packages</span>
+              </div>
+              
+
+              
+
+              
+            </div>
+            
+            
+          </details>
           
         </div>
-        
-        
-      </details>
+      </article>
       
-    </article>
-    
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="https://github.com/sepastian/minutiae-poster-service" target="_blank" rel="noopener">
-          sepastian/minutiae-poster-service
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="https://github.com/sepastian/minutiae-poster-service" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          minutiae-poster-service
         </a>
         <div class="repo-badges">
           
           <span class="badge badge-lang">Python</span>
           
-          <span class="badge badge-time">13d ago</span>
+          <span class="badge badge-time">14d ago</span>
           
         </div>
-      </div>
 
-      
-      <div class="repo-desc">Generate large-format posters from images taken by the minutiae app.</div>
-      
+        <!-- Truncated summary (visible when collapsed) -->
+        
+        <div class="tile-summary">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
+        
 
-      <!-- Latest summary -->
-      
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
-      </div>
-      
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          
+          <div class="repo-desc">Generate large-format posters from images taken by the minutiae app.</div>
+          
 
-      <!-- Next steps (always the latest) -->
-      
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">• Review any in-progress work
+          
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">Repository was pushed to but no new commits, PRs, or issues were detected in this window.</div>
+          </div>
+          
+
+          
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">• Review any in-progress work
 • Check for pending branch merges</div>
-      </div>
-      
+          </div>
+          
 
-      <!-- Expandable activity log -->
+          
+          
+        </div>
+      </article>
       
-      
-    </article>
-    
+    </div>
     
 
     <footer class="footer">
       Generated by <strong>Daily Progress Update</strong>
     </footer>
   </div>
+
+  <script>
+    function toggleTile(tile) {
+      var wasExpanded = tile.classList.contains('expanded');
+
+      // Collapse all tiles first
+      var tiles = document.querySelectorAll('.repo-tile.expanded');
+      for (var i = 0; i < tiles.length; i++) {
+        tiles[i].classList.remove('expanded');
+      }
+
+      // If this tile wasn't already expanded, expand it
+      if (!wasExpanded) {
+        tile.classList.add('expanded');
+        tile.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  </script>
 </body>
 </html>

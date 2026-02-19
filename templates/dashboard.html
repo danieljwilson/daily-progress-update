@@ -39,10 +39,10 @@
     a:hover { text-decoration: underline; }
 
     /* ── Layout ────────────────────────────────────────────────────── */
-    .container { max-width: 960px; margin: 0 auto; }
+    .container { max-width: 1200px; margin: 0 auto; }
 
     /* ── Header ────────────────────────────────────────────────────── */
-    .header { margin-bottom: 2rem; }
+    .header { margin-bottom: 1.5rem; }
 
     .header h1 {
       font-size: 1.75rem;
@@ -61,7 +61,7 @@
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .stat {
@@ -74,35 +74,44 @@
     .stat .value { font-size: 1.5rem; font-weight: 700; }
     .stat .label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; }
 
-    /* ── Repo card ─────────────────────────────────────────────────── */
-    .repo-card {
+    /* ── Project grid ─────────────────────────────────────────────── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Compact tile (default collapsed state) ───────────────────── */
+    .repo-tile {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 1.5rem;
-      margin-bottom: 1.25rem;
+      padding: 1rem 1.15rem;
+      cursor: pointer;
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
-    .repo-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin-bottom: .25rem;
+    .repo-tile:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.10);
     }
 
-    .repo-name {
-      font-size: 1.15rem;
+    .repo-tile .repo-name {
+      font-size: 1rem;
       font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
     }
 
-    .repo-badges {
+    .repo-tile .repo-badges {
       display: flex;
-      gap: .5rem;
+      gap: .4rem;
       align-items: center;
-      font-size: .78rem;
+      font-size: .72rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.4rem;
     }
 
     .badge {
@@ -116,13 +125,56 @@
     .badge-time    { background: var(--bg); color: var(--text-dim); }
     .badge-commits { background: var(--green-bg); color: var(--green); }
 
+    .tile-summary {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── Expanded state ───────────────────────────────────────────── */
+    .repo-tile.expanded {
+      grid-column: 1 / -1;
+      cursor: default;
+      border-color: var(--accent);
+      padding: 1.5rem;
+    }
+
+    .tile-details {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .repo-tile.expanded .tile-details {
+      display: block;
+    }
+
+    .repo-tile.expanded .tile-summary {
+      display: none;
+    }
+
+    .collapse-hint {
+      display: none;
+      font-size: .72rem;
+      color: var(--text-dim);
+      float: right;
+      margin-top: .1rem;
+    }
+
+    .repo-tile.expanded .collapse-hint {
+      display: inline;
+    }
+
     .repo-desc {
       color: var(--text-dim);
       font-size: .875rem;
       margin-bottom: 1rem;
     }
 
-    /* ── Sections inside card ──────────────────────────────────────── */
+    /* ── Sections inside expanded tile ────────────────────────────── */
     .section-label {
       font-size: .7rem;
       font-weight: 700;
@@ -170,8 +222,8 @@
       user-select: none;
     }
     details summary::-webkit-details-marker { display: none; }
-    details summary::before { content: "▸ "; }
-    details[open] summary::before { content: "▾ "; }
+    details summary::before { content: "\25b8 "; }
+    details[open] summary::before { content: "\25be "; }
 
     .day-group { margin-bottom: .75rem; }
     .day-label {
@@ -231,6 +283,7 @@
       body { padding: 1rem .5rem; }
       .stats { gap: .75rem; }
       .stat { flex: 1 1 calc(50% - .75rem); }
+      .project-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -263,13 +316,16 @@
       </div>
     </div>
 
-    <!-- Repo cards -->
+    <!-- Project grid -->
     {% if repos %}
-    {% for repo in repos %}
-    <article class="repo-card">
-      <div class="repo-header">
-        <a class="repo-name" href="{{ repo.url }}" target="_blank" rel="noopener">
-          {{ repo.name }}
+    <div class="project-grid">
+      {% for repo in repos %}
+      <article class="repo-tile" onclick="toggleTile(this)">
+        <!-- Always visible: compact header -->
+        <span class="collapse-hint">click to collapse</span>
+        <a class="repo-name" href="{{ repo.url }}" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">
+          {{ repo.display_name }}
         </a>
         <div class="repo-badges">
           {% if repo.language %}
@@ -280,74 +336,81 @@
           <span class="badge badge-commits">{{ repo.total_commits }} commit{{ "s" if repo.total_commits != 1 }}</span>
           {% endif %}
         </div>
-      </div>
 
-      {% if repo.description %}
-      <div class="repo-desc">{{ repo.description }}</div>
-      {% endif %}
-
-      <!-- Latest summary -->
-      {% if repo.daily_entries %}
-      <div class="summary-block">
-        <div class="section-label">Summary</div>
-        <div class="summary-text">{{ repo.daily_entries[0].summary }}</div>
-      </div>
-      {% endif %}
-
-      <!-- Next steps (always the latest) -->
-      {% if repo.next_steps %}
-      <div class="next-steps">
-        <div class="section-label">Next Steps</div>
-        <div class="next-steps-text">{{ repo.next_steps }}</div>
-      </div>
-      {% endif %}
-
-      <!-- Expandable activity log -->
-      {% set total_activity = repo.daily_entries | sum(attribute='total_items') %}
-      {% if total_activity > 0 %}
-      <details>
-        <summary>Activity Log ({{ total_activity }} item{{ "s" if total_activity != 1 }})</summary>
-        {% for day in repo.daily_entries %}
-        {% if day.total_items > 0 %}
-        <div class="day-group">
-          <div class="day-label">{{ day.date }}</div>
-
-          {% for c in day.commits %}
-          <div class="activity-item">
-            <span class="activity-icon commit-icon">&#9679;</span>
-            <span class="activity-sha">{{ c.sha }}</span>
-            <span class="activity-msg">{{ c.message }}</span>
-          </div>
-          {% endfor %}
-
-          {% for pr in day.pull_requests %}
-          <div class="activity-item">
-            <span class="activity-icon pr-icon">&#9679;</span>
-            <span class="activity-msg">
-              <a href="{{ pr.url }}" target="_blank" rel="noopener">#{{ pr.number }}</a>
-              {{ pr.title }}
-              <span style="color:var(--text-dim)">[{{ pr.state }}]</span>
-            </span>
-          </div>
-          {% endfor %}
-
-          {% for iss in day.issues %}
-          <div class="activity-item">
-            <span class="activity-icon issue-icon">&#9679;</span>
-            <span class="activity-msg">
-              <a href="{{ iss.url }}" target="_blank" rel="noopener">#{{ iss.number }}</a>
-              {{ iss.title }}
-              <span style="color:var(--text-dim)">[{{ iss.state }}]</span>
-            </span>
-          </div>
-          {% endfor %}
-        </div>
+        <!-- Truncated summary (visible when collapsed) -->
+        {% if repo.daily_entries %}
+        <div class="tile-summary">{{ repo.daily_entries[0].summary }}</div>
         {% endif %}
-        {% endfor %}
-      </details>
-      {% endif %}
-    </article>
-    {% endfor %}
+
+        <!-- Expanded details (hidden by default) -->
+        <div class="tile-details">
+          {% if repo.description %}
+          <div class="repo-desc">{{ repo.description }}</div>
+          {% endif %}
+
+          {% if repo.daily_entries %}
+          <div class="summary-block">
+            <div class="section-label">Summary</div>
+            <div class="summary-text">{{ repo.daily_entries[0].summary }}</div>
+          </div>
+          {% endif %}
+
+          {% if repo.next_steps %}
+          <div class="next-steps">
+            <div class="section-label">Next Steps</div>
+            <div class="next-steps-text">{{ repo.next_steps }}</div>
+          </div>
+          {% endif %}
+
+          {% set total_activity = repo.daily_entries | sum(attribute='total_items') %}
+          {% if total_activity > 0 %}
+          <details onclick="event.stopPropagation()">
+            <summary>Activity Log ({{ total_activity }} item{{ "s" if total_activity != 1 }})</summary>
+            {% for day in repo.daily_entries %}
+            {% if day.total_items > 0 %}
+            <div class="day-group">
+              <div class="day-label">{{ day.date }}</div>
+
+              {% for c in day.commits %}
+              <div class="activity-item">
+                <span class="activity-icon commit-icon">&#9679;</span>
+                <span class="activity-sha">{{ c.sha }}</span>
+                <span class="activity-msg">{{ c.message }}</span>
+              </div>
+              {% endfor %}
+
+              {% for pr in day.pull_requests %}
+              <div class="activity-item">
+                <span class="activity-icon pr-icon">&#9679;</span>
+                <span class="activity-msg">
+                  <a href="{{ pr.url }}" target="_blank" rel="noopener"
+                     onclick="event.stopPropagation()">#{{ pr.number }}</a>
+                  {{ pr.title }}
+                  <span style="color:var(--text-dim)">[{{ pr.state }}]</span>
+                </span>
+              </div>
+              {% endfor %}
+
+              {% for iss in day.issues %}
+              <div class="activity-item">
+                <span class="activity-icon issue-icon">&#9679;</span>
+                <span class="activity-msg">
+                  <a href="{{ iss.url }}" target="_blank" rel="noopener"
+                     onclick="event.stopPropagation()">#{{ iss.number }}</a>
+                  {{ iss.title }}
+                  <span style="color:var(--text-dim)">[{{ iss.state }}]</span>
+                </span>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endfor %}
+          </details>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
     {% else %}
     <div class="empty-state">
       <h2>No active repositories</h2>
@@ -359,5 +422,23 @@
       Generated by <strong>Daily Progress Update</strong>
     </footer>
   </div>
+
+  <script>
+    function toggleTile(tile) {
+      var wasExpanded = tile.classList.contains('expanded');
+
+      // Collapse all tiles first
+      var tiles = document.querySelectorAll('.repo-tile.expanded');
+      for (var i = 0; i < tiles.length; i++) {
+        tiles[i].classList.remove('expanded');
+      }
+
+      // If this tile wasn't already expanded, expand it
+      if (!wasExpanded) {
+        tile.classList.add('expanded');
+        tile.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  </script>
 </body>
 </html>
