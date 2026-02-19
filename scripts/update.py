@@ -290,6 +290,8 @@ def build_dashboard(
 
         # Latest next_steps comes from the most recent day
         latest_next_steps = rdata.get("next_steps", "")
+        if isinstance(latest_next_steps, list):
+            latest_next_steps = "\n".join(latest_next_steps)
 
         # Collect daily summaries (reverse-chron, skip if empty)
         daily_entries = []
