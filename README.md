@@ -10,6 +10,7 @@ Automated nightly tracker that summarizes GitHub activity across all your repos 
 4. **Claude** (Anthropic API) generates a narrative summary and actionable next steps
 5. A daily JSON snapshot is saved to `data/`
 6. An HTML dashboard is generated at `docs/index.html`
+7. An **Obsidian-compatible markdown** todo file is generated with coding next steps and a link to the [dashboard](https://danieljwilson.github.io/daily-progress-update/)
 
 Repos that haven't been touched in 14 days automatically drop off the dashboard, but their historical data is retained in the `data/` directory.
 
@@ -24,6 +25,14 @@ Go to **Settings → Secrets and variables → Actions** and add:
 | `GH_PAT` | A GitHub [Personal Access Token](https://github.com/settings/tokens) with `repo` scope (needed to read activity across all your repos) |
 | `ANTHROPIC_API_KEY` | Your [Anthropic API key](https://console.anthropic.com/) for AI-generated summaries |
 
+### Obsidian integration (optional)
+
+Set the `OBSIDIAN_TODO_PATH` environment variable to the path of your daily todo file. The script will create or update the `## Coding` section in that file while preserving any other content you've added.
+
+```bash
+export OBSIDIAN_TODO_PATH="/path/to/your/Obsidian/vault/daily-to-dos.md"
+```
+
 ### 2. Enable GitHub Pages (optional)
 
 To host the dashboard:
@@ -31,7 +40,7 @@ To host the dashboard:
 1. Go to **Settings → Pages**
 2. Set source to **Deploy from a branch**
 3. Select the `main` branch and `/docs` folder
-4. Save — your dashboard will be available at `https://<username>.github.io/daiily-progress-update/`
+4. Save — your dashboard will be available at `https://<username>.github.io/daily-progress-update/`
 
 ### 3. Initial backfill
 
@@ -92,7 +101,7 @@ Pass `--exclude` to skip specific repos:
 python scripts/update.py --exclude owner/repo-to-skip owner/another-repo
 ```
 
-The tracker repo itself (`<username>/daiily-progress-update`) is excluded by default to avoid noise from automated commits.
+The tracker repo itself (`<username>/daily-progress-update`) is excluded by default to avoid noise from automated commits.
 
 ## Customization
 
