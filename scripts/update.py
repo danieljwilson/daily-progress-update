@@ -367,24 +367,11 @@ def generate_obsidian_todos(repos_data: dict, date_str: str) -> Path | None:
 
     now = datetime.now(timezone.utc)
 
-    lines = [
-        "---",
-        "type: todo",
-        f"created: {date_str}",
-        f"modified: {now.strftime('%Y-%m-%d %H:%M')}",
-        "tags:",
-        "  - coding",
-        "  - auto-generated",
-        "categories:",
-        "  - coding",
-        "projects:",
-        "due date:",
-        "priority:",
-        "complete: false",
-        "permalink:",
-        "---",
-        "",
+    # Build the new Coding section
+    coding_lines = [
         "## Coding",
+        "",
+        "[Git Tracking Dashboard](https://danieljwilson.github.io/daily-progress-update/)",
         "",
     ]
 
@@ -399,7 +386,7 @@ def generate_obsidian_todos(repos_data: dict, date_str: str) -> Path | None:
         if not next_steps.strip():
             continue
 
-        lines.append(f"### {display_name}")
+        coding_lines.append(f"### {display_name}")
 
         # Convert bullet points to Obsidian checkbox format
         for bullet_line in next_steps.strip().split("\n"):
@@ -409,11 +396,49 @@ def generate_obsidian_todos(repos_data: dict, date_str: str) -> Path | None:
             # Strip leading bullet characters
             cleaned = bullet_line.lstrip("\u2022-* ").strip()
             if cleaned:
-                lines.append(f"- [ ] {cleaned}")
+                coding_lines.append(f"- [ ] {cleaned}")
 
-        lines.append("")  # blank line between repos
+        coding_lines.append("")  # blank line between repos
 
-    out_path.write_text("\n".join(lines))
+    new_coding_block = "\n".join(coding_lines)
+
+    # If the file already exists, preserve non-Coding content
+    if out_path.exists():
+        existing = out_path.read_text()
+
+        # Find the Coding section and replace it, keeping everything else
+        coding_pattern = re.compile(
+            r"(## Coding\b.*?)(?=\n## (?!#)|\Z)", re.DOTALL
+        )
+        if coding_pattern.search(existing):
+            updated = coding_pattern.sub(new_coding_block, existing)
+        else:
+            # No existing Coding section – append it
+            updated = existing.rstrip("\n") + "\n\n" + new_coding_block
+
+        out_path.write_text(updated)
+    else:
+        # Fresh file with frontmatter
+        lines = [
+            "---",
+            "type: todo",
+            f"created: {date_str}",
+            f"modified: {now.strftime('%Y-%m-%d %H:%M')}",
+            "tags:",
+            "  - coding",
+            "  - auto-generated",
+            "categories:",
+            "  - coding",
+            "projects:",
+            "due date:",
+            "priority:",
+            "complete: false",
+            "permalink:",
+            "---",
+            "",
+            new_coding_block,
+        ]
+        out_path.write_text("\n".join(lines))
     return out_path
 
 
