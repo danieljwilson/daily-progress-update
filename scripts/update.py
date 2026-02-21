@@ -200,7 +200,7 @@ class AISummarizer:
         )
 
         resp = self.client.messages.create(
-            model="claude-sonnet-4-6-20250514",
+            model="claude-sonnet-4-6",
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -518,7 +518,7 @@ def main() -> None:
     repos = gh.get_active_repos(cutoff)
 
     # Apply exclusions
-    tracker_repo = f"{username}/daiily-progress-update"
+    tracker_repo = f"{username}/daily-progress-update"
     excluded = set(args.exclude) | {tracker_repo}
     repos = [r for r in repos if r["full_name"] not in excluded]
 
