@@ -174,7 +174,7 @@ class AISummarizer:
     """Uses the Anthropic API to generate per-repo summaries & next steps."""
 
     def __init__(self, api_key: str):
-        self.client = Anthropic(api_key=api_key)
+        self.client = Anthropic(api_key=api_key, max_retries=5)
 
     def generate(
         self, repo_name: str, description: str, activity: dict
